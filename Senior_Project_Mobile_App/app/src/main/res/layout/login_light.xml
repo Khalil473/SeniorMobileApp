@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth connected"
+        android:textColor="@color/purple"
+        android:textSize="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_12sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/tv111"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:background="@drawable/gray_background_for_buttons_in_light_login_bluetooth_screens"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="@dimen/_10sdp"
+        android:textColorHint="@color/black"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/Go_to_main_screen_from_login_screen_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:background="@drawable/gray_background_for_buttons_in_light_login_bluetooth_screens"
+        android:padding="@dimen/_10sdp"
+        android:text="Login"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15sdp" />
+
+
+
+</RelativeLayout>

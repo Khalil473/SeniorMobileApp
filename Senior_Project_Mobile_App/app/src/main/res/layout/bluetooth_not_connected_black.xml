@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/ourBlackColor">
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth not connected"
+        android:textColor="@color/redForTextviewInBluetoothScreen"
+        android:textSize="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_12sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:gravity="center_horizontal"
+
+        />
+
+    <TextView
+        android:id="@+id/TextView_bluetooth_not_connected_black_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:background="@drawable/gray_background_for_buttons_in_blacked_login_bluetooth_screens"
+        android:drawableLeft="@drawable/bluetooth"
+        android:drawableRight="@drawable/blackarrow"
+        android:gravity="center"
+        android:padding="@dimen/_10sdp"
+        android:text="Connect to device"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15sdp" />
+
+
+
+</RelativeLayout>
