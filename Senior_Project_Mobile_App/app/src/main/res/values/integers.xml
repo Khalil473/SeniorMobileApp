@@ -6,4 +6,7 @@
     <integer name="MAX_SEARCH_COUNT">50</integer>
     <integer name="STATE_BLUETOOTH_NOT_SUPPORTED">3</integer>
     <integer name="STATE_PERMISSION_REQUIRED">4</integer>
+    <integer name="STATE_DISCONNECTED" >5</integer>
+    <integer name="STATE_CONNECTED">6</integer>
+    <integer name="STATE_CONNECTING">7</integer>
 </resources>

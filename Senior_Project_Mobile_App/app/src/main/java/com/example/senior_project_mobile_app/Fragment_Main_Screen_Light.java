@@ -17,12 +17,9 @@ public class Fragment_Main_Screen_Light extends Fragment {
         myActivity=m;
     }
     View v;
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState)
     {
-        v= inflater.inflate(R.layout.main_screen_light,container,false);
-
-
+        v = inflater.inflate(R.layout.main_screen_light,container,false);
         ImageView imageView = v.findViewById(R.id.settings_image_light_id);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +41,6 @@ public class Fragment_Main_Screen_Light extends Fragment {
                 myActivity.replaceFragment(new Fragment_Weight_History_Screen_Light(myActivity));
             }
         });
-
         LinearLayout linearLayout_Tempreture_light = v.findViewById(R.id.linear_layout_light_Tempreture_history_id);
         linearLayout_Tempreture_light.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +48,6 @@ public class Fragment_Main_Screen_Light extends Fragment {
                 myActivity.replaceFragment(new Fragment_Tempreture_History_screen_Light(myActivity));
             }
         });
-
         LinearLayout linearLayout_Humadity_light = v.findViewById(R.id.linear_layout_light_Humadity_history_id);
         linearLayout_Humadity_light.setOnClickListener(new View.OnClickListener() {
             @Override

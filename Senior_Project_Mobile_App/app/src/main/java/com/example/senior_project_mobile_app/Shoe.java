@@ -6,7 +6,10 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.widget.TextView;
@@ -16,10 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Shoe implements Serializable {
-    private final Context myContext;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothAdapter.LeScanCallback scanCallback;
     private int status;
@@ -28,18 +32,9 @@ public class Shoe implements Serializable {
     private final ArrayList<String> toRequest;
     private final MainActivity myActivity;
     private BluetoothGatt bluetoothGatt;
+    private BluetoothGattCharacteristic defaultCharacteristic;
 
-    public Shoe(Context myContext) {
-        this.myContext = myContext;
-        scanCount = 0;
-        scanResult = new ArrayList<>();
-        toRequest = new ArrayList<>();
-        myActivity = null;
-        bluetoothGatt = null;
-    }
-
-    public Shoe(Context myContext, MainActivity myActivity) {
-        this.myContext = myContext;
+    public Shoe(MainActivity myActivity) {
         scanCount = 0;
         scanResult = new ArrayList<>();
         toRequest = new ArrayList<>();
@@ -48,27 +43,27 @@ public class Shoe implements Serializable {
     }
 
     public void initializeDevice() {
-        if (initialize(myContext)) {
-            status = myContext.getResources().getInteger(R.integer.STATE_INITIALIZED);
+        if (initialize(myActivity)) {
+            status = myActivity.getResources().getInteger(R.integer.STATE_INITIALIZED);
         }
     }
 
     public void searchNearbyDevices() throws InterruptedException {
-        if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED)
             ;
-        if (status != myContext.getResources().getInteger(R.integer.STATE_INITIALIZED)) {
+        if (status != myActivity.getResources().getInteger(R.integer.STATE_INITIALIZED)) {
             return;
         }
-        status = myContext.getResources().getInteger(R.integer.STATE_SCANNING);
+        status = myActivity.getResources().getInteger(R.integer.STATE_SCANNING);
         bluetoothAdapter.startLeScan(scanCallback);
 
     }
 
     public ArrayList<String> getNearbyDeviceNames() {
-        if (status == myContext.getResources().getInteger(R.integer.STATE_SCAN_FINISHED)) {
+        if (status == myActivity.getResources().getInteger(R.integer.STATE_SCAN_FINISHED)) {
             ArrayList<String> names = new ArrayList<>();
             for (BluetoothDevice i : scanResult) {
-                if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+                if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
                     ;
                 names.add(i.getName());
             }
@@ -81,27 +76,25 @@ public class Shoe implements Serializable {
         return this.status;
     }
 
-    private boolean initialize(@NonNull Context myContext) {
+    private boolean initialize(@NonNull MainActivity myActivity) {
         this.scanResult.clear();
         if (scanCallback == null)
             scanCallback = new BluetoothAdapter.LeScanCallback() {
                 @Override
                 public void onLeScan(BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
-                    if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+                    if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
                         ;
                     if (bluetoothDevice != null && bluetoothDevice.getName() != null && !deviceExists(bluetoothDevice)) {
                         scanResult.add(bluetoothDevice);
                     }
                     scanCount++;
-                    if (scanCount == myContext.getResources().getInteger(R.integer.MAX_SEARCH_COUNT)) {
+                    if (scanCount == myActivity.getResources().getInteger(R.integer.MAX_SEARCH_COUNT)) {
                         scanCount = 0;
-                        status = myContext.getResources().getInteger(R.integer.STATE_SCAN_FINISHED);
-                        if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED)
+                        status = myActivity.getResources().getInteger(R.integer.STATE_SCAN_FINISHED);
+                        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED)
                             ;
                         bluetoothAdapter.stopLeScan(scanCallback);
-                        if (myActivity != null) {
-                            //myActivity.showDevices(getNearbyDeviceNames());
-                        }
+                        myActivity.onBluetoothSearchFinished(getNearbyDeviceNames());
                     }
                 }
 
@@ -115,22 +108,22 @@ public class Shoe implements Serializable {
                 }
             };
 
-        BluetoothManager btManager = (BluetoothManager) myContext.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothManager btManager = (BluetoothManager) myActivity.getSystemService(Context.BLUETOOTH_SERVICE);
         bluetoothAdapter = btManager.getAdapter();
         if (bluetoothAdapter == null) {
-            status = myContext.getResources().getInteger(R.integer.STATE_BLUETOOTH_NOT_SUPPORTED);
+            status = myActivity.getResources().getInteger(R.integer.STATE_BLUETOOTH_NOT_SUPPORTED);
             return false;
         }
-        if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED)
             toRequest.add(Manifest.permission.BLUETOOTH);
-        if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED)
             toRequest.add(Manifest.permission.BLUETOOTH_ADMIN);
-        if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             toRequest.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             toRequest.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         if (!toRequest.isEmpty()) {
-            status = myContext.getResources().getInteger(R.integer.STATE_PERMISSION_REQUIRED);
+            status = myActivity.getResources().getInteger(R.integer.STATE_PERMISSION_REQUIRED);
             return false;
         }
         if (!bluetoothAdapter.isEnabled()) {
@@ -142,7 +135,7 @@ public class Shoe implements Serializable {
 
     private BluetoothDevice getDeviceByName(String name) {
         for (BluetoothDevice i : this.scanResult) {
-            if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+            if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
                 ;
             if (i.getName().equals(name)) {
                 return i;
@@ -151,33 +144,69 @@ public class Shoe implements Serializable {
         return null;
     }
 
+    private boolean isFirstTime() {
+        return true;
+    }
+
+    public void startReading() {
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+            ;
+        bluetoothGatt.discoverServices();
+    }
+
     public boolean connectToDevice(String name) {
         BluetoothDevice toConnect = getDeviceByName(name);
-        if (ActivityCompat.checkSelfPermission(myContext, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED);
-        bluetoothGatt = toConnect.connectGatt(myContext, false, new BluetoothGattCallback() {
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+            ;
+        bluetoothGatt = toConnect.connectGatt(myActivity, true, new BluetoothGattCallback() {
             @Override
             public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                super.onConnectionStateChange(gatt, status, newState);
+                if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                    Shoe.this.status = myActivity.getResources().getInteger(R.integer.STATE_DISCONNECTED);
+                    myActivity.onBluetoothDisconnected();
+                } else if (newState == BluetoothProfile.STATE_CONNECTED) {
+                    Shoe.this.status = myActivity.getResources().getInteger(R.integer.STATE_CONNECTED);
+                    myActivity.onBluetoothConnected();
+                } else if (newState == BluetoothProfile.STATE_CONNECTING) {
+                    Shoe.this.status = myActivity.getResources().getInteger(R.integer.STATE_CONNECTING);
+                }
             }
 
             @Override
             public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-                super.onServicesDiscovered(gatt, status);
+                for (BluetoothGattService service : bluetoothGatt.getServices()) {
+                    if (service.getUuid().toString().contains("ffe0")) {
+                        for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
+                            if (characteristic.getUuid().toString().contains("ffe1")) {
+                                if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+                                    ;
+                                bluetoothGatt.readCharacteristic(characteristic);
+                                defaultCharacteristic = characteristic;
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
             public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                super.onCharacteristicRead(gatt, characteristic, status);
+                if (status == BluetoothGatt.GATT_SUCCESS) {
+                    String dataFromCharacteristic = new String(characteristic.getValue(), StandardCharsets.UTF_8);
+                    myActivity.onDataReceived(dataFromCharacteristic);
+                }
             }
 
             @Override
             public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                super.onCharacteristicWrite(gatt, characteristic, status);
+                if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+                    ;
+                gatt.executeReliableWrite();
             }
 
             @Override
             public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                super.onCharacteristicChanged(gatt, characteristic);
+                if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED);
+                gatt.readCharacteristic(characteristic);
             }
 
             @Override
@@ -186,6 +215,32 @@ public class Shoe implements Serializable {
             }
         });
         return true;
+    }
+
+    public void startDataNotify() {
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+            ;
+        bluetoothGatt.setCharacteristicNotification(defaultCharacteristic, true);
+        UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+        BluetoothGattDescriptor descriptor = defaultCharacteristic.getDescriptor(CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
+        boolean enabled = descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+        bluetoothGatt.writeDescriptor(descriptor);
+    }
+
+    public void stopDataNotify() {
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+            ;
+        bluetoothGatt.setCharacteristicNotification(defaultCharacteristic, false);
+        UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+        BluetoothGattDescriptor descriptor = defaultCharacteristic.getDescriptor(CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
+        boolean enabled = descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+        bluetoothGatt.writeDescriptor(descriptor);
+    }
+
+    private void sendACK() {
+        defaultCharacteristic.setValue("1".getBytes(StandardCharsets.UTF_8));
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) ;
+        bluetoothGatt.writeCharacteristic(defaultCharacteristic);
     }
     public String[] getRequiredPerms() {
         String[] perms=new String[toRequest.size()];
