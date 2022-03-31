@@ -12,15 +12,15 @@ import androidx.fragment.app.Fragment;
 
 public class Fragment_Main_Screen extends Fragment {
     MainActivity myActivity;
-    public Fragment_Main_Screen(MainActivity m)
-    {
-        myActivity=m;
+
+    public Fragment_Main_Screen(MainActivity m) {
+        myActivity = m;
     }
+
     View v;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState)
-    {
-        v= inflater.inflate(R.layout.main_screen_black,container,false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
+        v = inflater.inflate(R.layout.main_screen_black, container, false);
 
 
         ImageView imageView = v.findViewById(R.id.settings_image_black_id);
@@ -31,7 +31,7 @@ public class Fragment_Main_Screen extends Fragment {
             }
         });
 
-        Switch aSwitch= v.findViewById(R.id.switch_in_main_screen_black);
+        Switch aSwitch = v.findViewById(R.id.switch_in_main_screen_black);
         aSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +73,7 @@ public class Fragment_Main_Screen extends Fragment {
             }
         });
 
-        LinearLayout linearLayout_Carried_Weight= v.findViewById(R.id.linear_layout_Carried_Weight_history_id);
+        LinearLayout linearLayout_Carried_Weight = v.findViewById(R.id.linear_layout_Carried_Weight_history_id);
         linearLayout_Carried_Weight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,14 +81,14 @@ public class Fragment_Main_Screen extends Fragment {
             }
         });
 
-        LinearLayout linearLayout_Location= v.findViewById(R.id.linear_layout_Location_id);
+        LinearLayout linearLayout_Location = v.findViewById(R.id.linear_layout_Location_id);
         linearLayout_Location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        LinearLayout linearLayout_BMI= v.findViewById(R.id.linear_layout_BMI_id);
+        LinearLayout linearLayout_BMI = v.findViewById(R.id.linear_layout_BMI_id);
         linearLayout_BMI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

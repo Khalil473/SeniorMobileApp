@@ -10,15 +10,17 @@ import androidx.fragment.app.Fragment;
 
 public class Fragment_Setup_Screen extends Fragment {
     MainActivity myActivity;
-    public Fragment_Setup_Screen(MainActivity m){
 
-        myActivity=m;
+    public Fragment_Setup_Screen(MainActivity m) {
+
+        myActivity = m;
     }
+
     View v;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState)
-    {
-        v= inflater.inflate(R.layout.setup_black,container,false);
-        TextView tv=v.findViewById(R.id.Go_to_main_screen_from_setup_screen_black);
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
+        v = inflater.inflate(R.layout.setup_black, container, false);
+        TextView tv = v.findViewById(R.id.Go_to_main_screen_from_setup_screen_black);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    public static String currentScreen="";
+    public static String currentScreen = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,24 +22,27 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new Fragment_Blutooth_Not_Connected_Screen(this));
     }
 
-    public void replaceFragment(Fragment fragment)
-    {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout,fragment);
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-    public void onBluetoothDisconnected(){
+
+    public void onBluetoothDisconnected() {
 
     }
-    public void onBluetoothConnected(){
+
+    public void onBluetoothConnected() {
 
     }
-    public void onDataReceived(String data){
+
+    public void onDataReceived(String data) {
 
     }
-    public void onBluetoothSearchFinished(ArrayList<String> bluetoothDevicesNames){
+
+    public void onBluetoothSearchFinished(ArrayList<String> bluetoothDevicesNames) {
 
     }
 }
@@ -46,7 +51,7 @@ steps to start reading from the bluetooth device:
 1-Define a Shoe object
 2-shoe.initialize()
 3-check status to see one of these status and take action accordingly:
-    3.1-check if status = device doesn't support bluetooth
+    3.1-check if stat  us = device doesn't support bluetooth
     3.2-check if status = device needs certain perms if so request them
     3.3-check if status != initialized if so reInit
 4-if device is initialized if so call the searchNearbyDevices

@@ -193,6 +193,7 @@ public class Shoe implements Serializable {
                 if (status == BluetoothGatt.GATT_SUCCESS) {
                     String dataFromCharacteristic = new String(characteristic.getValue(), StandardCharsets.UTF_8);
                     myActivity.onDataReceived(dataFromCharacteristic);
+                    sendACK();
                 }
             }
 
@@ -205,7 +206,8 @@ public class Shoe implements Serializable {
 
             @Override
             public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED);
+                if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+                    ;
                 gatt.readCharacteristic(characteristic);
             }
 
@@ -239,13 +241,15 @@ public class Shoe implements Serializable {
 
     private void sendACK() {
         defaultCharacteristic.setValue("1".getBytes(StandardCharsets.UTF_8));
-        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) ;
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+            ;
         bluetoothGatt.writeCharacteristic(defaultCharacteristic);
     }
+
     public String[] getRequiredPerms() {
-        String[] perms=new String[toRequest.size()];
-        for(int i=0;i<perms.length;i++){
-            perms[i]= toRequest.get(i);
+        String[] perms = new String[toRequest.size()];
+        for (int i = 0; i < perms.length; i++) {
+            perms[i] = toRequest.get(i);
         }
         return (toRequest.isEmpty()) ? null : perms;
     }

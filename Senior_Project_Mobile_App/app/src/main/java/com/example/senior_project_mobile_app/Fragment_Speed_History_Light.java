@@ -33,16 +33,16 @@ public class Fragment_Speed_History_Light extends Fragment {
             }
         });
 
-        double x,y;
+        double x, y;
         GraphView graph = v.findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
 
-        for (int i=0;i<100;i++){
-            x=i;
-            y=Math.sin(i);
-            series.appendData(new DataPoint(x,y),false,100);
+        for (int i = 0; i < 100; i++) {
+            x = i;
+            y = Math.sin(i);
+            series.appendData(new DataPoint(x, y), false, 100);
             //color of series
-            series.setColor(Color.argb(255,18,130,206));
+            series.setColor(Color.argb(255, 18, 130, 206));
             // series.setDataPointsRadius(200);
             series.setDrawDataPoints(true);
             series.setDataPointsRadius(10);
@@ -52,14 +52,14 @@ public class Fragment_Speed_History_Light extends Fragment {
 
         graph.addSeries(series);
         //color of background color
-        graph.setBackgroundColor(Color.argb(255,253,255,252));
+        graph.setBackgroundColor(Color.argb(255, 253, 255, 252));
         //color of Horizontal  numbers
-        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.argb(255,86,86,86));
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.argb(255, 86, 86, 86));
         //color of Vertical numbers
-        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.argb(255,86,86,86));
+        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.argb(255, 86, 86, 86));
         //graph.getGridLabelRenderer().setVerticalLabelsVisible(true);
         //color of Horizontal and Vertical lines
-        graph.getGridLabelRenderer().setGridColor(Color.argb(255,130,131,130));
+        graph.getGridLabelRenderer().setGridColor(Color.argb(255, 130, 131, 130));
 
 
         graph.getViewport().setScalable(true);  // activate horizontal zooming and scrolling

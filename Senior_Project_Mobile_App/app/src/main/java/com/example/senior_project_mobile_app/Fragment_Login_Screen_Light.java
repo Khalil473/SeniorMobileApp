@@ -11,16 +11,17 @@ import androidx.fragment.app.Fragment;
 public class Fragment_Login_Screen_Light extends Fragment {
 
     MainActivity myActivity;
-    public Fragment_Login_Screen_Light(MainActivity m){
 
-        myActivity=m;
+    public Fragment_Login_Screen_Light(MainActivity m) {
+
+        myActivity = m;
     }
+
     View v;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState)
-    {
-        v= inflater.inflate(R.layout.login_light,container,false);
-        TextView textView =v.findViewById(R.id.Go_to_main_screen_from_login_screen_light);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
+        v = inflater.inflate(R.layout.login_light, container, false);
+        TextView textView = v.findViewById(R.id.Go_to_main_screen_from_login_screen_light);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

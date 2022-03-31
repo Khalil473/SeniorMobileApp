@@ -10,14 +10,16 @@ import androidx.fragment.app.Fragment;
 
 public class Fragment_Blutooth_Not_Connected_Screen extends Fragment {
     MainActivity myActivity;
-    public Fragment_Blutooth_Not_Connected_Screen(MainActivity m){
-        myActivity=m;
+
+    public Fragment_Blutooth_Not_Connected_Screen(MainActivity m) {
+        myActivity = m;
     }
+
     View v;
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState)
-    {
-        v= inflater.inflate(R.layout.bluetooth_not_connected_black,container,false);
-        TextView tv=v.findViewById(R.id.TextView_bluetooth_not_connected_black_id);
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
+        v = inflater.inflate(R.layout.bluetooth_not_connected_black, container, false);
+        TextView tv = v.findViewById(R.id.TextView_bluetooth_not_connected_black_id);
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
