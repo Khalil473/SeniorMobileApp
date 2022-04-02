@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 public class Fragment_Blutooth_Not_Connected_Screen extends Fragment {
-    MainActivity myActivity;
+    MainActivity myActivity; int x;
     public Fragment_Blutooth_Not_Connected_Screen(MainActivity m){
         myActivity=m;
     }
