@@ -1,6 +1,7 @@
 package com.example.senior_project_mobile_app;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ public class Fragment_Login_Screen extends Fragment {
     RelativeLayout rl;
     Animation anim;
     MainActivity myActivity;
+
     public Fragment_Login_Screen(MainActivity m){
 
         myActivity=m;
