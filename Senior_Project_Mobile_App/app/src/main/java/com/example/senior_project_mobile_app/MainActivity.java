@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment)
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().setCustomAnimations(R.anim.demo_anim);
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.addToBackStack("back to connect with bluetooth screen");
         fragmentTransaction.commit();

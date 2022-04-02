@@ -4,11 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 public class Fragment_Login_Screen extends Fragment {
+    RelativeLayout rl;
+    Animation anim;
     MainActivity myActivity;
     public Fragment_Login_Screen(MainActivity m){
 
