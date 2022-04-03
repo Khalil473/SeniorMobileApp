@@ -39,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onDataReceived(String data) {
+        if(data.startsWith("h")){
 
+        }
+        else if(data.startsWith("w")){
+
+        }
     }
 
     public void onBluetoothSearchFinished(ArrayList<String> bluetoothDevicesNames) {
