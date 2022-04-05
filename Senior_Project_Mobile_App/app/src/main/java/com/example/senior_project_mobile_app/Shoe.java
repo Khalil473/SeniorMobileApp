@@ -27,9 +27,14 @@ public class Shoe implements Serializable {
   private int status;
   private final ArrayList<BluetoothDevice> scanResult;
   private final ArrayList<String> toRequest;
-  private final MainActivity myActivity;
+  private final Context myActivity;
   private BluetoothGatt bluetoothGatt;
+  private final BluetoothGattCallback bluetoothGattCallback;
   private BluetoothGattCharacteristic defaultCharacteristic;
+  private OnBluetoothConnectedListener bluetoothConnectedListener;
+  private OnDataReceivedListener dataReceivedListener;
+  private OnBluetoothSearchFinishedListener bluetoothSearchFinishedListener;
+  private OnBluetoothDisconnectedListener bluetoothDisconnectedListener;
   public static final int STATE_BLUETOOTH_NOT_SUPPORTED = 3;
   public static final int STATE_CONNECTED = 6;
   public static final int STATE_CONNECTING = 7;
@@ -69,6 +74,93 @@ public class Shoe implements Serializable {
             return false;
           }
         };
+    bluetoothGattCallback =
+        new BluetoothGattCallback() {
+          @Override
+          public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+              Shoe.this.status = STATE_DISCONNECTED;
+              bluetoothDisconnectedListener.bluetoothDisconnected();
+            } else if (newState == BluetoothProfile.STATE_CONNECTED) {
+              Shoe.this.status = STATE_CONNECTED;
+              bluetoothConnectedListener.bluetoothConnectedListener();
+            } else if (newState == BluetoothProfile.STATE_CONNECTING) {
+              Shoe.this.status = STATE_CONNECTING;
+            }
+          }
+
+          @Override
+          public void onServicesDiscovered(BluetoothGatt gatt, int status) { // TODO: Redo the code.
+            if (ActivityCompat.checkSelfPermission(
+                    myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+                != PackageManager.PERMISSION_GRANTED)
+              ;
+            myActivity.runOnUiThread(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    Toast.makeText(myActivity, "here", Toast.LENGTH_SHORT).show();
+                  }
+                });
+
+            for (BluetoothGattService service : bluetoothGatt.getServices()) {
+              if (service.getUuid().toString().contains("ffe0")) {
+                for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
+                  if (characteristic.getUuid().toString().contains("ffe1")) {
+                    defaultCharacteristic = characteristic;
+                  }
+                  myActivity.runOnUiThread(
+                      new Runnable() {
+                        @Override
+                        public void run() {
+                          Toast.makeText(
+                                  myActivity,
+                                  characteristic.getUuid().toString(),
+                                  Toast.LENGTH_SHORT)
+                              .show();
+                        }
+                      });
+                }
+              }
+            }
+          }
+
+          @Override
+          public void onCharacteristicRead(
+              BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+              String dataFromCharacteristic =
+                  new String(characteristic.getValue(), StandardCharsets.UTF_8);
+              dataReceivedListener.dataReceivedListener(dataFromCharacteristic);
+              sendACK();
+            }
+          }
+
+          @Override
+          public void onCharacteristicWrite(
+              BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            if (ActivityCompat.checkSelfPermission(
+                    myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+                != PackageManager.PERMISSION_GRANTED)
+              ;
+            gatt.executeReliableWrite();
+          }
+
+          @Override
+          public void onCharacteristicChanged(
+              BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            if (ActivityCompat.checkSelfPermission(
+                    myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+                != PackageManager.PERMISSION_GRANTED)
+              ;
+            gatt.readCharacteristic(characteristic);
+          }
+
+          @Override
+          public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
+            super.onReliableWriteCompleted(gatt, status);
+          }
+        };
   }
 
   public void initializeDevice() {
@@ -98,11 +190,27 @@ public class Shoe implements Serializable {
               != PackageManager.PERMISSION_GRANTED)
             ;
           bluetoothAdapter.stopLeScan(scanCallback);
-          myActivity.onBluetoothSearchFinished(getNearbyDeviceNames());
+          bluetoothSearchFinishedListener.bluetoothSearchFinishedListener(getNearbyDeviceNames());
         },
         myActivity.getResources().getInteger(R.integer.MAX_SEARCH_TIME));
     bluetoothAdapter.startLeScan(scanCallback);
     status = STATE_INITIALIZED;
+  }
+
+  public void setOnDataReceivedListener(OnDataReceivedListener listener) {
+    dataReceivedListener = listener;
+  }
+
+  public void setOnBluetoothConnectedListener(OnBluetoothConnectedListener listener) {
+    bluetoothConnectedListener = listener;
+  }
+
+  public void setOnBluetoothSearchFinished(OnBluetoothSearchFinishedListener listener) {
+    bluetoothSearchFinishedListener = listener;
+  }
+
+  public void setOnBluetoothDisconnectedListener(OnBluetoothDisconnectedListener listener) {
+    bluetoothDisconnectedListener = listener;
   }
 
   public ArrayList<String> getNearbyDeviceNames() {
@@ -123,7 +231,7 @@ public class Shoe implements Serializable {
     return this.status;
   }
 
-  private boolean initialize(@NonNull MainActivity myActivity) {
+  private boolean initialize(@NonNull Context myActivity) {
     this.scanResult.clear();
     BluetoothManager btManager =
         (BluetoothManager) myActivity.getSystemService(Context.BLUETOOTH_SERVICE);
@@ -184,103 +292,18 @@ public class Shoe implements Serializable {
     bluetoothGatt.discoverServices();
   }
 
-  public boolean connectToDevice(String name) {
+  public void connectToDevice(String name) {
     BluetoothDevice toConnect = getDeviceByName(name);
     if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
         != PackageManager.PERMISSION_GRANTED)
       ;
     if (toConnect == null) {
       Toast.makeText(myActivity, "No device Found with this name!", Toast.LENGTH_SHORT).show();
-      return false;
+      return;
     }
-    bluetoothGatt =
-        toConnect.connectGatt(
-            myActivity,
-            true,
-            new BluetoothGattCallback() {
-              @Override
-              public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                  Shoe.this.status = STATE_DISCONNECTED;
-                  myActivity.onBluetoothDisconnected();
-                } else if (newState == BluetoothProfile.STATE_CONNECTED) {
-                  Shoe.this.status = STATE_CONNECTED;
-                  myActivity.onBluetoothConnected();
-                } else if (newState == BluetoothProfile.STATE_CONNECTING) {
-                  Shoe.this.status = STATE_CONNECTING;
-                }
-              }
-
-              @Override
-              public void onServicesDiscovered(
-                  BluetoothGatt gatt, int status) { // TODO: Redo the code.
-                if (ActivityCompat.checkSelfPermission(
-                        myActivity, Manifest.permission.BLUETOOTH_CONNECT)
-                    != PackageManager.PERMISSION_GRANTED)
-                  ;
-                for (BluetoothGattService service : bluetoothGatt.getServices()) {
-                  Toast.makeText(myActivity, "here", Toast.LENGTH_SHORT).show();
-                  if (service.getUuid().toString().contains("ffe0")) {
-                    for (BluetoothGattCharacteristic characteristic :
-                        service.getCharacteristics()) {
-                      if (characteristic.getUuid().toString().contains("ffe1")) {
-                        defaultCharacteristic = characteristic;
-                      }
-                      myActivity.runOnUiThread(
-                          new Runnable() {
-                            @Override
-                            public void run() {
-                              Toast.makeText(
-                                      myActivity,
-                                      characteristic.getUuid().toString(),
-                                      Toast.LENGTH_SHORT)
-                                  .show();
-                            }
-                          });
-                    }
-                  }
-                }
-              }
-
-              @Override
-              public void onCharacteristicRead(
-                  BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                if (status == BluetoothGatt.GATT_SUCCESS) {
-                  String dataFromCharacteristic =
-                      new String(characteristic.getValue(), StandardCharsets.UTF_8);
-                  myActivity.onDataReceived(dataFromCharacteristic);
-                  sendACK();
-                }
-              }
-
-              @Override
-              public void onCharacteristicWrite(
-                  BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                if (ActivityCompat.checkSelfPermission(
-                        myActivity, Manifest.permission.BLUETOOTH_CONNECT)
-                    != PackageManager.PERMISSION_GRANTED)
-                  ;
-                gatt.executeReliableWrite();
-              }
-
-              @Override
-              public void onCharacteristicChanged(
-                  BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                if (ActivityCompat.checkSelfPermission(
-                        myActivity, Manifest.permission.BLUETOOTH_CONNECT)
-                    != PackageManager.PERMISSION_GRANTED)
-                  ;
-                gatt.readCharacteristic(characteristic);
-              }
-
-              @Override
-              public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
-                super.onReliableWriteCompleted(gatt, status);
-              }
-            });
-    myActivity.onBluetoothConnected();
+    bluetoothGatt = toConnect.connectGatt(myActivity, true, bluetoothGattCallback);
+    bluetoothConnectedListener.bluetoothConnectedListener();
     status = STATE_CONNECTED;
-    return true;
   }
 
   public void read() { // TODO: continue the implementation and check if works.

@@ -1,12 +1,10 @@
 package com.example.senior_project_mobile_app;
 
 import android.os.Bundle;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
   public String currentScreen = "";
@@ -26,30 +24,6 @@ public class MainActivity extends AppCompatActivity {
     fragmentTransaction.replace(R.id.frame_layout, fragment);
     fragmentTransaction.addToBackStack(null);
     fragmentTransaction.commit();
-  }
-
-  public void onBluetoothDisconnected() {}
-
-  public void onBluetoothConnected() {
-    Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-    shoe.startReading();
-  }
-
-  public void onDataReceived(String data) {
-    if (data.startsWith("h")) {
-
-    } else if (data.startsWith("w")) {
-
-    }
-    Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
-    shoe.startDataNotify();
-  }
-
-  public void onBluetoothSearchFinished(ArrayList<String> bluetoothDevicesNames) {
-    Toast.makeText(
-            this, bluetoothDevicesNames.size() + "" + bluetoothDevicesNames, Toast.LENGTH_SHORT)
-        .show();
-    shoe.connectToDevice(bluetoothDevicesNames.get(0));
   }
 }
 /*
