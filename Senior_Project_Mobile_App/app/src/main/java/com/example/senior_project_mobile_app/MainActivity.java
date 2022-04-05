@@ -1,55 +1,48 @@
 package com.example.senior_project_mobile_app;
 
+import android.os.Bundle;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Switch;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    public static String currentScreen = "";
+  public String currentScreen = "";
+  public Shoe shoe;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        replaceFragment(new Fragment_Blutooth_Not_Connected_Screen(this));
-    }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    shoe = new Shoe(this);
+    replaceFragment(new Fragment_Bluetooth_Not_Connected_Screen(this));
+  }
 
-    public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
+  public void replaceFragment(Fragment fragment) {
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    fragmentTransaction.replace(R.id.frame_layout, fragment);
+    fragmentTransaction.addToBackStack(null);
+    fragmentTransaction.commit();
+  }
 
-    public void onBluetoothDisconnected() {
+  public void onBluetoothDisconnected() {}
 
-    }
+  public void onBluetoothConnected() {}
 
-    public void onBluetoothConnected() {
+  public void onDataReceived(String data) {
+    if (data.startsWith("h")) {
 
-    }
-
-    public void onDataReceived(String data) {
-        if(data.startsWith("h")){
-
-        }
-        else if(data.startsWith("w")){
-
-        }
-    }
-
-    public void onBluetoothSearchFinished(ArrayList<String> bluetoothDevicesNames) {
+    } else if (data.startsWith("w")) {
 
     }
+  }
+
+  public void onBluetoothSearchFinished(ArrayList<String> bluetoothDevicesNames) {
+    Toast.makeText(this, bluetoothDevicesNames.size() + "", Toast.LENGTH_SHORT).show();
+  }
 }
 /*
 steps to start reading from the bluetooth device:

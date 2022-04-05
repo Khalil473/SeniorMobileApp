@@ -9,4 +9,5 @@
     <integer name="STATE_DISCONNECTED" >5</integer>
     <integer name="STATE_CONNECTED">6</integer>
     <integer name="STATE_CONNECTING">7</integer>
+    <integer name="MAX_SEARCH_TIME">10000</integer>
 </resources>
