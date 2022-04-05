@@ -30,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
 
   public void onBluetoothDisconnected() {}
 
-  public void onBluetoothConnected() {}
+  public void onBluetoothConnected() {
+    Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+    shoe.startReading();
+  }
 
   public void onDataReceived(String data) {
     if (data.startsWith("h")) {
@@ -38,10 +41,15 @@ public class MainActivity extends AppCompatActivity {
     } else if (data.startsWith("w")) {
 
     }
+    Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
+    shoe.startDataNotify();
   }
 
   public void onBluetoothSearchFinished(ArrayList<String> bluetoothDevicesNames) {
-    Toast.makeText(this, bluetoothDevicesNames.size() + "", Toast.LENGTH_SHORT).show();
+    Toast.makeText(
+            this, bluetoothDevicesNames.size() + "" + bluetoothDevicesNames, Toast.LENGTH_SHORT)
+        .show();
+    shoe.connectToDevice(bluetoothDevicesNames.get(0));
   }
 }
 /*

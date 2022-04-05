@@ -25,6 +25,15 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
           @Override
           public void onClick(View v) {
             // myActivity.replaceFragment(new Fragment_Login_Screen(myActivity));
+            if (myActivity.shoe.getStatus() == Shoe.STATE_CONNECTED) {
+              myActivity.shoe.read(); // TODO: fix the read.
+              return;
+            }
+            if (myActivity.shoe.getStatus() == Shoe.STATE_SCANNING) {
+              Toast.makeText(myActivity, "Please wait until the search Finish", Toast.LENGTH_SHORT)
+                  .show();
+              return;
+            } // TODO: disable the search while the bluetooth is searching.
             myActivity.shoe.initializeDevice();
             switch (myActivity.shoe.getStatus()) {
               case Shoe.STATE_BLUETOOTH_NOT_SUPPORTED:

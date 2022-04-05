@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import java.io.Serializable;
@@ -76,7 +77,8 @@ public class Shoe implements Serializable {
     }
   }
 
-  public void searchNearbyDevices() throws InterruptedException {
+  public void searchNearbyDevices()
+      throws InterruptedException { // TODO: check if the gps is enabled, if not enable it.
 
     if (status != STATE_INITIALIZED) {
       return;
@@ -160,7 +162,7 @@ public class Shoe implements Serializable {
   }
 
   private BluetoothDevice getDeviceByName(String name) {
-    for (BluetoothDevice i : this.scanResult) {
+    for (BluetoothDevice i : scanResult) {
       if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
           != PackageManager.PERMISSION_GRANTED)
         ;
@@ -187,6 +189,10 @@ public class Shoe implements Serializable {
     if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
         != PackageManager.PERMISSION_GRANTED)
       ;
+    if (toConnect == null) {
+      Toast.makeText(myActivity, "No device Found with this name!", Toast.LENGTH_SHORT).show();
+      return false;
+    }
     bluetoothGatt =
         toConnect.connectGatt(
             myActivity,
@@ -206,19 +212,31 @@ public class Shoe implements Serializable {
               }
 
               @Override
-              public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+              public void onServicesDiscovered(
+                  BluetoothGatt gatt, int status) { // TODO: Redo the code.
+                if (ActivityCompat.checkSelfPermission(
+                        myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+                    != PackageManager.PERMISSION_GRANTED)
+                  ;
                 for (BluetoothGattService service : bluetoothGatt.getServices()) {
+                  Toast.makeText(myActivity, "here", Toast.LENGTH_SHORT).show();
                   if (service.getUuid().toString().contains("ffe0")) {
                     for (BluetoothGattCharacteristic characteristic :
                         service.getCharacteristics()) {
                       if (characteristic.getUuid().toString().contains("ffe1")) {
-                        if (ActivityCompat.checkSelfPermission(
-                                myActivity, Manifest.permission.BLUETOOTH_CONNECT)
-                            != PackageManager.PERMISSION_GRANTED)
-                          ;
-                        bluetoothGatt.readCharacteristic(characteristic);
                         defaultCharacteristic = characteristic;
                       }
+                      myActivity.runOnUiThread(
+                          new Runnable() {
+                            @Override
+                            public void run() {
+                              Toast.makeText(
+                                      myActivity,
+                                      characteristic.getUuid().toString(),
+                                      Toast.LENGTH_SHORT)
+                                  .show();
+                            }
+                          });
                     }
                   }
                 }
@@ -260,7 +278,20 @@ public class Shoe implements Serializable {
                 super.onReliableWriteCompleted(gatt, status);
               }
             });
+    myActivity.onBluetoothConnected();
+    status = STATE_CONNECTED;
     return true;
+  }
+
+  public void read() { // TODO: continue the implementation and check if works.
+    if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+        != PackageManager.PERMISSION_GRANTED)
+      ;
+    if (defaultCharacteristic == null) {
+      Toast.makeText(myActivity, "Not ready yet!", Toast.LENGTH_SHORT).show();
+      return;
+    }
+    bluetoothGatt.readCharacteristic(defaultCharacteristic);
   }
 
   public void startDataNotify() {
