@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 public class Fragment_Main_Screen extends Fragment {
@@ -14,13 +15,22 @@ public class Fragment_Main_Screen extends Fragment {
 
   public Fragment_Main_Screen(MainActivity m) {
     myActivity = m;
+    myActivity.shoe.startDataNotify();
   }
 
   View v;
+  TextView temp;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.main_screen_black, container, false);
-
+    temp = v.findViewById(R.id.temp_real_time);
+    myActivity.shoe.setOnDataReceivedListener(
+        (data) -> {
+          if (data.startsWith("w")) {
+            // weightTextView.setText(data.substring(1))
+          }
+          temp.setText(data);
+        });
     ImageView imageView = v.findViewById(R.id.settings_image_black_id);
     imageView.setOnClickListener(
         new View.OnClickListener() {

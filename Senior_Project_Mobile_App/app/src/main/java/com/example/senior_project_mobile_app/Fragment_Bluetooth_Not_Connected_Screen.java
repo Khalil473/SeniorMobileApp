@@ -27,7 +27,14 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
     tv.setOnClickListener(
         new View.OnClickListener() {
           @Override
-          public void onClick(View v) {
+          public void onClick(View view) {
+            if (myActivity.shoe.getStatus() == Shoe.STATE_CONNECTED) {
+              myActivity.shoe.startReading();
+              if (myActivity.shoe.isFirstTime())
+                myActivity.replaceFragment(new Fragment_Login_Screen(myActivity));
+              else myActivity.replaceFragment(new Fragment_Setup_Screen(myActivity));
+              myActivity.shoe.stopBluetoothScan();
+            }
             // myActivity.replaceFragment(new Fragment_Login_Screen(myActivity));
             if (myActivity.shoe.getStatus() == Shoe.STATE_SCANNING) {
               Toast.makeText(myActivity, "Please wait until the search Finish", Toast.LENGTH_SHORT)
@@ -51,40 +58,33 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
                           "Unable to enable bluetooth try to enable it manually",
                           Toast.LENGTH_SHORT)
                       .show();
+                } else {
+                  Toast.makeText(myActivity, "Enabling bluetooth", Toast.LENGTH_SHORT).show();
                 }
                 break;
               case Shoe.STATE_INITIALIZED:
+                pb.setVisibility(View.VISIBLE);
                 try {
                   myActivity.shoe.searchNearbyDevices();
-                  myActivity.shoe.setOnBluetoothSearchFinished(
-                      new OnBluetoothSearchFinishedListener() {
-                        @Override
-                        public void bluetoothSearchFinishedListener(ArrayList<String> devices) {
-                          Toast.makeText(
-                                  myActivity, devices.size() + "" + devices, Toast.LENGTH_SHORT)
-                              .show();
-                          myActivity.shoe.connectToDevice(devices.get(0));
-                          pb.setVisibility(View.INVISIBLE);
-                        }
-                      });
-                  pb.setVisibility(View.VISIBLE);
                 } catch (InterruptedException e) {
                   Toast.makeText(myActivity, "Failed to start scanning", Toast.LENGTH_SHORT).show();
                 }
-                myActivity.shoe.setOnBluetoothConnectedListener(
-                    new OnBluetoothConnectedListener() {
+                myActivity.shoe.setOnBluetoothSearchFinished(
+                    new OnBluetoothSearchFinishedListener() {
                       @Override
-                      public void bluetoothConnectedListener() {
-                        myActivity.replaceFragment(new Fragment_Login_Screen(myActivity));
+                      public void bluetoothSearchFinishedListener(ArrayList<String> devices) {
+                        Toast.makeText(
+                                myActivity, devices.size() + "" + devices, Toast.LENGTH_SHORT)
+                            .show();
+                        myActivity.shoe.connectToDevice(devices.get(0));
+                        pb.setVisibility(View.INVISIBLE);
                       }
                     });
+
+                myActivity.shoe.setOnBluetoothConnectedListener(() -> {});
+
                 myActivity.shoe.setOnBluetoothDisconnectedListener(
-                    new OnBluetoothDisconnectedListener() {
-                      @Override
-                      public void bluetoothDisconnected() {
-                        myActivity.replaceFragment(Fragment_Bluetooth_Not_Connected_Screen.this);
-                      }
-                    });
+                    () -> myActivity.replaceFragment(Fragment_Bluetooth_Not_Connected_Screen.this));
                 break;
             }
           }

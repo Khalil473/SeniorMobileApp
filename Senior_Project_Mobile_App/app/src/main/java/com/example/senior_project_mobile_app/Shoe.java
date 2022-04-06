@@ -16,12 +16,11 @@ import android.os.Handler;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Shoe implements Serializable {
+public class Shoe {
   private BluetoothAdapter bluetoothAdapter;
   private final BluetoothAdapter.LeScanCallback scanCallback;
   private int status;
@@ -197,6 +196,13 @@ public class Shoe implements Serializable {
     status = STATE_INITIALIZED;
   }
 
+  public void stopBluetoothScan() {
+    if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_SCAN)
+        != PackageManager.PERMISSION_GRANTED)
+      ;
+    bluetoothAdapter.stopLeScan(scanCallback);
+  }
+
   public void setOnDataReceivedListener(OnDataReceivedListener listener) {
     dataReceivedListener = listener;
   }
@@ -281,7 +287,7 @@ public class Shoe implements Serializable {
     return null;
   }
 
-  private boolean isFirstTime() { // TODO : implement to check if this is the first time
+  public boolean isFirstTime() { // TODO : implement to check if this is the first time
     return true;
   }
 
