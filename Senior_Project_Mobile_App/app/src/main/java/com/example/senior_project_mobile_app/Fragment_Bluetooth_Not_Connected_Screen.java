@@ -6,9 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.fragment.app.Fragment;
-import java.util.ArrayList;
 
 public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
   MainActivity myActivity;
@@ -23,7 +21,14 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.bluetooth_not_connected_black, container, false);
     TextView tv = v.findViewById(R.id.TextView_bluetooth_not_connected_black_id);
-    pb = v.findViewById(R.id.loading_bar);
+    tv.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            myActivity.replaceFragment(new Fragment_Login_Screen(myActivity));
+          }
+        });
+    /*pb = v.findViewById(R.id.loading_bar);
     tv.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -88,7 +93,7 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
                 break;
             }
           }
-        });
+        });*/
     return v;
   }
 }
