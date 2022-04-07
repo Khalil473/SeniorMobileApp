@@ -17,6 +17,7 @@
         android:layout_marginRight="@dimen/_12sdp"
         android:layout_marginLeft="@dimen/_12sdp"
         android:gravity="center_horizontal"
+
         />
 
     <TextView
@@ -34,7 +35,6 @@
         android:text="Connect to device"
         android:textColor="@color/white"
         android:textSize="@dimen/_15sdp" />
-
     <ProgressBar
         android:id="@+id/loading_bar"
         android:layout_width="wrap_content"
@@ -43,5 +43,20 @@
         android:layout_centerInParent="true"
         android:visibility="invisible"
         />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/TextView_bluetooth_not_connected_black_id"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:id="@+id/Linearlayout_name_of_near_devices"
+        >
+
+
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>
