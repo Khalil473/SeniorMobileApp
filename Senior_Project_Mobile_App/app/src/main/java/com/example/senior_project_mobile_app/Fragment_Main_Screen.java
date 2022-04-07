@@ -15,7 +15,7 @@ public class Fragment_Main_Screen extends Fragment {
 
   public Fragment_Main_Screen(MainActivity m) {
     myActivity = m;
-    myActivity.shoe.startDataNotify();
+    // myActivity.shoe.startDataNotify();
   }
 
   View v;

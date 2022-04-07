@@ -1,3 +1,3 @@
-Disable the user from going back to the bluetooth not connected and the login/setup screens using the back button when he is in the main screen.
+Disable the user from going back to the bluetooth not connected and the login/setup screens using the back button when he is in the main screen (dont add these fragment to back stack).
 
 Add a disconnect button to the settings screen.
