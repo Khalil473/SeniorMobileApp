@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -40,7 +39,6 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
                   .show();
               return;
             } // TODO: disable the search while the bluetooth is searching.
-
             myActivity.shoe.initializeDevice();
             switch (myActivity.shoe.getStatus()) {
               case Shoe.STATE_BLUETOOTH_NOT_SUPPORTED:
@@ -65,7 +63,8 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
               case Shoe.STATE_INITIALIZED:
                 pb.setVisibility(View.VISIBLE);
                 try {
-                  myActivity.shoe.searchNearbyDevices();
+                  if (myActivity.shoe.getStatus() != Shoe.STATE_CONNECTED)
+                    myActivity.shoe.searchNearbyDevices();
                 } catch (InterruptedException e) {
                   Toast.makeText(myActivity, "Failed to start scanning", Toast.LENGTH_SHORT).show();
                 }
@@ -93,9 +92,8 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
                           pb.setVisibility(View.INVISIBLE);
                           return;
                         }
-                        ArrayAdapter arrayAdapter =
-                            new ArrayAdapter(
-                                myActivity, android.R.layout.simple_list_item_1, devices);
+                        devices.add("Test");
+                        DevicesAdapter arrayAdapter = new DevicesAdapter(myActivity, devices);
                         listView.setAdapter(arrayAdapter);
                         linearLayout.addView(listView);
                         listView.setOnItemClickListener(
@@ -103,6 +101,10 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
                               @Override
                               public void onItemClick(
                                   AdapterView<?> parent, View view, int position, long id) {
+                                if (myActivity.shoe.getStatus() == Shoe.STATE_CONNECTED) {
+                                  myActivity.shoe.disconnectDevice();
+                                  tv.setText("Refresh");
+                                }
                                 String item = listView.getAdapter().getItem(position).toString();
                                 myActivity.shoe.connectToDevice(item);
                               }
@@ -116,9 +118,7 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
                       tv.setText("Continue to Login/Setup");
                       tv.setOnClickListener(
                           (v) -> {
-                            myActivity.shoe.startReading();
                             if (myActivity.shoe.getStatus() == Shoe.STATE_CONNECTED) {
-                              myActivity.shoe.startReading();
                               if (myActivity.shoe.isFirstTime())
                                 myActivity.replaceFragment(new Fragment_Login_Screen(myActivity));
                               else

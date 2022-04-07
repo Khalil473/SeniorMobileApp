@@ -15,7 +15,6 @@ public class Fragment_Main_Screen extends Fragment {
 
   public Fragment_Main_Screen(MainActivity m) {
     myActivity = m;
-    // myActivity.shoe.startDataNotify();
   }
 
   View v;
@@ -23,6 +22,7 @@ public class Fragment_Main_Screen extends Fragment {
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.main_screen_black, container, false);
+    myActivity.shoe.startDataNotify();
     temp = v.findViewById(R.id.temp_real_time);
     myActivity.shoe.setOnDataReceivedListener(
         (data) -> {

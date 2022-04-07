@@ -24,6 +24,7 @@ public class Fragment_Login_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+            myActivity.shoe.startReading();
             myActivity.replaceFragment(new Fragment_Main_Screen(myActivity));
           }
         });

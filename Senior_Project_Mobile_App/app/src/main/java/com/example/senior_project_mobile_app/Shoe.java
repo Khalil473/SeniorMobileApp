@@ -94,31 +94,12 @@ public class Shoe {
                     myActivity, Manifest.permission.BLUETOOTH_CONNECT)
                 != PackageManager.PERMISSION_GRANTED)
               ;
-            myActivity.runOnUiThread(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    Toast.makeText(myActivity, "here", Toast.LENGTH_SHORT).show();
-                  }
-                });
-
             for (BluetoothGattService service : bluetoothGatt.getServices()) {
               if (service.getUuid().toString().contains("ffe0")) {
                 for (BluetoothGattCharacteristic characteristic : service.getCharacteristics()) {
                   if (characteristic.getUuid().toString().contains("ffe1")) {
                     defaultCharacteristic = characteristic;
                   }
-                  myActivity.runOnUiThread(
-                      new Runnable() {
-                        @Override
-                        public void run() {
-                          Toast.makeText(
-                                  myActivity,
-                                  characteristic.getUuid().toString(),
-                                  Toast.LENGTH_SHORT)
-                              .show();
-                        }
-                      });
                 }
               }
             }
@@ -307,7 +288,8 @@ public class Shoe {
       Toast.makeText(myActivity, "No device Found with this name!", Toast.LENGTH_SHORT).show();
       return;
     }
-    bluetoothGatt = toConnect.connectGatt(myActivity, true, bluetoothGattCallback);
+    bluetoothGatt =
+        toConnect.connectGatt(myActivity, false, bluetoothGattCallback); // TODO: Fix auto connect-
     bluetoothConnectedListener.bluetoothConnectedListener();
     status = STATE_CONNECTED;
   }
@@ -355,6 +337,17 @@ public class Shoe {
         != PackageManager.PERMISSION_GRANTED)
       ;
     bluetoothGatt.writeCharacteristic(defaultCharacteristic);
+  }
+
+  public boolean isReadyToRead() {
+    return defaultCharacteristic != null;
+  }
+
+  public void disconnectDevice() {
+    if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+        != PackageManager.PERMISSION_GRANTED)
+      ;
+    if (getStatus() == STATE_CONNECTED) bluetoothGatt.disconnect();
   }
 
   public String[] getRequiredPerms() {
