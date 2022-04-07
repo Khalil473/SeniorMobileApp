@@ -5,4 +5,3 @@
         android:interpolator="@android:anim/decelerate_interpolator"
         android:fromAlpha="1"
         android:toAlpha="0"  />
-
