@@ -26,7 +26,7 @@ public class Shoe {
   private int status;
   private final ArrayList<BluetoothDevice> scanResult;
   private final ArrayList<String> toRequest;
-  private final Context myActivity;
+  private final MainActivity myActivity;
   private BluetoothGatt bluetoothGatt;
   private final BluetoothGattCallback bluetoothGattCallback;
   private BluetoothGattCharacteristic defaultCharacteristic;
@@ -79,10 +79,22 @@ public class Shoe {
           public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             if (newState == BluetoothProfile.STATE_DISCONNECTED) {
               Shoe.this.status = STATE_DISCONNECTED;
-              bluetoothDisconnectedListener.bluetoothDisconnected();
+              myActivity.runOnUiThread(
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      bluetoothDisconnectedListener.bluetoothDisconnected();
+                    }
+                  });
             } else if (newState == BluetoothProfile.STATE_CONNECTED) {
               Shoe.this.status = STATE_CONNECTED;
-              bluetoothConnectedListener.bluetoothConnectedListener();
+              myActivity.runOnUiThread(
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      bluetoothConnectedListener.bluetoothConnectedListener();
+                    }
+                  });
             } else if (newState == BluetoothProfile.STATE_CONNECTING) {
               Shoe.this.status = STATE_CONNECTING;
             }
@@ -111,7 +123,14 @@ public class Shoe {
             if (status == BluetoothGatt.GATT_SUCCESS) {
               String dataFromCharacteristic =
                   new String(characteristic.getValue(), StandardCharsets.UTF_8);
-              dataReceivedListener.dataReceivedListener(dataFromCharacteristic);
+              myActivity.runOnUiThread(
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      dataReceivedListener.dataReceivedListener(dataFromCharacteristic);
+                    }
+                  });
+
               sendACK();
             }
           }
@@ -170,7 +189,14 @@ public class Shoe {
               != PackageManager.PERMISSION_GRANTED)
             ;
           bluetoothAdapter.stopLeScan(scanCallback);
-          bluetoothSearchFinishedListener.bluetoothSearchFinishedListener(getNearbyDeviceNames());
+          myActivity.runOnUiThread(
+              new Runnable() {
+                @Override
+                public void run() {
+                  bluetoothSearchFinishedListener.bluetoothSearchFinishedListener(
+                      getNearbyDeviceNames());
+                }
+              });
         },
         myActivity.getResources().getInteger(R.integer.MAX_SEARCH_TIME));
     bluetoothAdapter.startLeScan(scanCallback);
@@ -218,7 +244,7 @@ public class Shoe {
     return this.status;
   }
 
-  private boolean initialize(@NonNull Context myActivity) {
+  private boolean initialize(@NonNull MainActivity myActivity) {
     this.scanResult.clear();
     BluetoothManager btManager =
         (BluetoothManager) myActivity.getSystemService(Context.BLUETOOTH_SERVICE);
