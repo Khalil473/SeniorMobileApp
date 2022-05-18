@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 
 public class Fragment_Main_Screen extends Fragment {
@@ -18,18 +20,40 @@ public class Fragment_Main_Screen extends Fragment {
   }
 
   View v;
-  TextView temp;
+  TextView temp,weight,humadity,speed,carred_weight;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.main_screen_black, container, false);
     myActivity.shoe.startDataNotify();
     temp = v.findViewById(R.id.temp_real_time);
+    weight = v.findViewById(R.id.weight_real_time);
+    humadity=v.findViewById(R.id.humadity_real_time);
+    speed= v.findViewById(R.id.speed_real_time);
+    carred_weight=v.findViewById(R.id.carred_weight_real_time);
     myActivity.shoe.setOnDataReceivedListener(
         (data) -> {
           if (data.startsWith("w")) {
-            // weightTextView.setText(data.substring(1))
+
+              weight.setText(data.substring(1));
           }
-          temp.setText(data);
+          else if (data.startsWith("t"))
+          {
+              temp.setText(data.substring(1)+"");
+
+          }
+          else if(data.startsWith("h"))
+          {
+              humadity.setText(data.substring(1)+"");
+          }
+          else if(data.startsWith("s"))
+          {
+              speed.setText(data.substring(1));
+          }
+          else if(data.startsWith("cw"))
+          {
+              carred_weight.setText(data.substring(2));
+          }
+
         });
     ImageView imageView = v.findViewById(R.id.settings_image_black_id);
     imageView.setOnClickListener(
