@@ -34,6 +34,7 @@ public class Shoe {
   private OnDataReceivedListener dataReceivedListener;
   private OnBluetoothSearchFinishedListener bluetoothSearchFinishedListener;
   private OnBluetoothDisconnectedListener bluetoothDisconnectedListener;
+  private OnHistoryReadFinished historyReadFinished;
   public static final int STATE_BLUETOOTH_NOT_SUPPORTED = 3;
   public static final int STATE_CONNECTED = 6;
   public static final int STATE_CONNECTING = 7;
@@ -43,12 +44,17 @@ public class Shoe {
   public static final int STATE_SCANNING = 1;
   public static final int STATE_SCAN_FINISHED = 2;
   public static final int STATE_BLUETOOTH_DISABLED = 8;
+  public static final int STATE_READING_HISTORY = 9;
+  public static final int STATE_SENDING_ACK = 10;
+  public static final int STATE_SENDING_DATA = 11;
+  public final ArrayList<Integer> historyData;
 
   public Shoe(MainActivity myActivity) {
     scanResult = new ArrayList<>();
     toRequest = new ArrayList<>();
     this.myActivity = myActivity;
     bluetoothGatt = null;
+    historyData = new ArrayList<>();
     scanCallback =
         new BluetoothAdapter.LeScanCallback() {
           @Override
@@ -363,6 +369,7 @@ public class Shoe {
         != PackageManager.PERMISSION_GRANTED)
       ;
     bluetoothGatt.writeCharacteristic(defaultCharacteristic);
+    status = STATE_SENDING_ACK;
   }
 
   public boolean isReadyToRead() {
@@ -382,5 +389,23 @@ public class Shoe {
       perms[i] = toRequest.get(i);
     }
     return (toRequest.isEmpty()) ? null : perms;
+  }
+
+  public void sendData(String data) {
+    defaultCharacteristic.setValue(data.getBytes(StandardCharsets.UTF_8));
+    if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+        != PackageManager.PERMISSION_GRANTED)
+      ;
+    bluetoothGatt.writeCharacteristic(defaultCharacteristic);
+    status = STATE_SENDING_DATA;
+  }
+
+  public void startHistoryReading(String type) {
+    sendData("h" + type);
+    status = STATE_READING_HISTORY;
+  }
+
+  public void setOnHistoryReadFinished(OnHistoryReadFinished historyReadFinished) {
+    this.historyReadFinished = historyReadFinished;
   }
 }
