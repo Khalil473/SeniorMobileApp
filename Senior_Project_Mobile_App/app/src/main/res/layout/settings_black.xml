@@ -723,8 +723,6 @@
             </LinearLayout>
 
 
-
-
             <LinearLayout
                 android:id="@+id/LinearAbout"
                 android:layout_width="match_parent"
@@ -733,8 +731,8 @@
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginRight="@dimen/_15sdp"
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/_40sdp">
+                android:layout_marginBottom="@dimen/_40sdp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -819,29 +817,33 @@
                     </RelativeLayout>
 
 
-
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/Linear_layout_disconnect_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/LinearAbout"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/disconnect_button_on_setting_screen_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/gray_background_for_buttons_in_blacked_login_bluetooth_screens"
+                    android:padding="@dimen/_10sdp"
+                    android:text="Disconnect"
+                    android:textColor="@color/redForTextviewInBluetoothScreen"
+                    android:textSize="@dimen/_15sdp" />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            </LinearLayout>
 
 
         </RelativeLayout>
