@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 
 public class Fragment_Settings_Screen extends Fragment {
@@ -28,6 +30,14 @@ public class Fragment_Settings_Screen extends Fragment {
             myActivity.replaceFragment(new Fragment_Main_Screen(myActivity));
           }
         });
+      TextView disconnect_btn=v.findViewById(R.id.disconnect_button_on_setting_screen_black);
+      disconnect_btn.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              myActivity.shoe.disconnectDevice();
+              myActivity.replaceFragment(new Fragment_Bluetooth_Not_Connected_Screen(myActivity));
+          }
+      });
     return v;
   }
 }
