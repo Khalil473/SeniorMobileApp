@@ -1,5 +1,5 @@
 package com.example.senior_project_mobile_app;
 
-public interface OnHistoryReadFinished {
+public interface OnHistoryReadFinishedListener {
   void historyReadFinished();
 }
