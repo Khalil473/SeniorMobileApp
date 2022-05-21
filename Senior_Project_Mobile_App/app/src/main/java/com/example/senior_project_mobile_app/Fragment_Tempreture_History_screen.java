@@ -33,14 +33,11 @@ public class Fragment_Tempreture_History_screen extends Fragment {
             myActivity.replaceFragment(new Fragment_Main_Screen(myActivity));
           }
         });
-    double x, y;
     GraphView graph = v.findViewById(R.id.graph);
     LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
 
-    for (int i = 0; i < 100; i++) {
-      x = i;
-      y = Math.sin(i);
-      series.appendData(new DataPoint(x, y), false, 100);
+    for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+      series.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
       // color of series
       series.setColor(Color.argb(255, 237, 125, 49));
       // series.setDataPointsRadius(200);
