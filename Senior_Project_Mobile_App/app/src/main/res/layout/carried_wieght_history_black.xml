@@ -178,6 +178,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/max_carried_weight_button_in_carried_weight_screen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/_4sdp"
@@ -191,6 +192,7 @@
                         android:textSize="@dimen/_13sdp" />
 
                     <TextView
+                        android:id="@+id/avg_carried_weight_button_in_carried_weight_screen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/purple_background_for_buttons_in_blacked_history_screens"

@@ -28,6 +28,10 @@ public class Fragment_Speed_History extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.max_speed_history_black, container, false);
     loading_bar=v.findViewById(R.id.loading_bar_in_speed_history_screen);
+      TextView daily_max_speed= v.findViewById(R.id.daily_max_speed_history_button);
+      TextView weakly_max_speed=v.findViewById(R.id.weakly_max_speed_history_button);
+      TextView monthly_max_speed=v.findViewById(R.id.monthly_max_speed_history_button);
+      TextView yearly_max_speed=v.findViewById(R.id.yearly_max_speed_history_button);
 
     ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_max_speed_history_screen_id);
     imageView.setOnClickListener(
@@ -38,10 +42,14 @@ public class Fragment_Speed_History extends Fragment {
           }
         });
 
-    TextView daily_max_speed= v.findViewById(R.id.daily_max_speed_history_button);
+
     daily_max_speed.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_max_speed.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          weakly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("ds");
         loading_bar.setVisibility(View.VISIBLE);
@@ -58,10 +66,14 @@ public class Fragment_Speed_History extends Fragment {
 
 
 
-    TextView weakly_max_speed=v.findViewById(R.id.weakly_max_speed_history_button);
+
     weakly_max_speed.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_max_speed.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          monthly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("ws");
         loading_bar.setVisibility(View.VISIBLE);
@@ -77,10 +89,14 @@ public class Fragment_Speed_History extends Fragment {
     });
 
 
-    TextView monthly_max_speed=v.findViewById(R.id.monthly_max_speed_history_button);
+
     monthly_max_speed.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_max_speed.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          yearly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("ms");
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
@@ -94,10 +110,14 @@ public class Fragment_Speed_History extends Fragment {
     });
 
 
-    TextView yearly_max_speed=v.findViewById(R.id.yearly_max_speed_history_button);
+
     yearly_max_speed.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_max_speed.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_max_speed.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("ys");
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(

@@ -28,6 +28,10 @@ public class Fragment_Weight_History_Screen extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.weight_history_black, container, false);
     loading_bar=v.findViewById(R.id.loading_bar_in_weights_history_screen);
+      TextView daily_weight= v.findViewById(R.id.daily_weight_history_button);
+      TextView weakly_weight=v.findViewById(R.id.weakly_weight_history_button);
+      TextView monthly_weight=v.findViewById(R.id.monthly_weight_history_button);
+      TextView yearly_weight=v.findViewById(R.id.yearly_weight_history_button);
 
     ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_weight_history_screen_id);
     imageView.setOnClickListener(
@@ -39,10 +43,15 @@ public class Fragment_Weight_History_Screen extends Fragment {
         });
 
 
-    TextView daily_weight= v.findViewById(R.id.daily_weight_history_button);
+
     daily_weight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
+          daily_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          weakly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("dw");
         loading_bar.setVisibility(View.VISIBLE);
@@ -59,10 +68,15 @@ public class Fragment_Weight_History_Screen extends Fragment {
 
 
 
-    TextView weakly_weight=v.findViewById(R.id.weakly_weight_history_button);
+
     weakly_weight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
+          daily_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          monthly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("ww");
         loading_bar.setVisibility(View.VISIBLE);
@@ -78,10 +92,13 @@ public class Fragment_Weight_History_Screen extends Fragment {
     });
 
 
-    TextView monthly_weight=v.findViewById(R.id.monthly_weight_history_button);
-    weakly_weight.setOnClickListener(new View.OnClickListener() {
+    monthly_weight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          yearly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("mw");
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
@@ -96,10 +113,14 @@ public class Fragment_Weight_History_Screen extends Fragment {
     });
 
 
-    TextView yearly_weight=v.findViewById(R.id.yearly_weight_history_button);
-    weakly_weight.setOnClickListener(new View.OnClickListener() {
+
+    yearly_weight.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("yw");
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(

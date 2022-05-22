@@ -28,6 +28,10 @@ public class Fragment_Tempreture_History_screen extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.temperature_history_black, container, false);
     loading_bar=v.findViewById(R.id.loading_bar_in_temperature_history_screen);
+      TextView daily_tempreture= v.findViewById(R.id.daily_temperature_history_button);
+      TextView weakly_tempreture=v.findViewById(R.id.weakly_temperature_history_button);
+      TextView monthly_tempreture=v.findViewById(R.id.monthly_temperature_history_button);
+      TextView yearly_tempreture=v.findViewById(R.id.yearly_weight_history_button);
 
     ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_tempreture_history_screen_id);
     imageView.setOnClickListener(
@@ -39,10 +43,14 @@ public class Fragment_Tempreture_History_screen extends Fragment {
         });
 
 
-    TextView daily_tempreture= v.findViewById(R.id.daily_temperature_history_button);
     daily_tempreture.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
+          daily_tempreture.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          weakly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("dt");
         loading_bar.setVisibility(View.VISIBLE);
@@ -59,10 +67,15 @@ public class Fragment_Tempreture_History_screen extends Fragment {
 
 
 
-    TextView weakly_tempreture=v.findViewById(R.id.weakly_temperature_history_button);
+
     weakly_tempreture.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
+          daily_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_tempreture.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          monthly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("wt");
         loading_bar.setVisibility(View.VISIBLE);
@@ -78,10 +91,15 @@ public class Fragment_Tempreture_History_screen extends Fragment {
     });
 
 
-    TextView monthly_tempreture=v.findViewById(R.id.monthly_temperature_history_button);
+
     monthly_tempreture.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
+          daily_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_tempreture.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          yearly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("mt");
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
@@ -96,10 +114,14 @@ public class Fragment_Tempreture_History_screen extends Fragment {
     });
 
 
-    TextView yearly_tempreture=v.findViewById(R.id.yearly_weight_history_button);
+
     yearly_tempreture.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_tempreture.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_tempreture.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("yt");
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
