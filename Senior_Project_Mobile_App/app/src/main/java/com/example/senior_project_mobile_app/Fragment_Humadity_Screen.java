@@ -27,6 +27,10 @@ public class Fragment_Humadity_Screen extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.humidity_history_black, container, false);
     loading_bar=v.findViewById(R.id.loading_bar_in_humidity_history_screen);
+      TextView daily_humidity= v.findViewById(R.id.daily_humidity_history_button);
+      TextView weakly_humidity=v.findViewById(R.id.weakly_humidity_history_button);
+      TextView monthly_humidity=v.findViewById(R.id.monthly_humidity_history_button);
+      TextView yearly_humidity=v.findViewById(R.id.yearly_humidity_history_button);
 
     ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_humadity_history_screen_id);
     imageView.setOnClickListener(
@@ -37,10 +41,14 @@ public class Fragment_Humadity_Screen extends Fragment {
           }
         });
 
-    TextView daily_humidity= v.findViewById(R.id.daily_humidity_history_button);
+
     daily_humidity.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_humidity.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          weakly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("dh");
         loading_bar.setVisibility(View.VISIBLE);
@@ -57,10 +65,14 @@ public class Fragment_Humadity_Screen extends Fragment {
 
 
 
-    TextView weakly_humidity=v.findViewById(R.id.weakly_humidity_history_button);
+
     weakly_humidity.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_humidity.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          monthly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("wh");
         loading_bar.setVisibility(View.VISIBLE);
@@ -76,10 +88,14 @@ public class Fragment_Humadity_Screen extends Fragment {
     });
 
 
-    TextView monthly_humidity=v.findViewById(R.id.monthly_humidity_history_button);
+
     monthly_humidity.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_humidity.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+          yearly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("mh");
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
@@ -94,10 +110,14 @@ public class Fragment_Humadity_Screen extends Fragment {
     });
 
 
-    TextView yearly_humidity=v.findViewById(R.id.yearly_humidity_history_button);
+
     yearly_humidity.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+          daily_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          weakly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          monthly_humidity.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          yearly_humidity.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("yh");
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
