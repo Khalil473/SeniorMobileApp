@@ -31,7 +31,7 @@ public class Fragment_Tempreture_History_screen extends Fragment {
       TextView daily_tempreture= v.findViewById(R.id.daily_temperature_history_button);
       TextView weakly_tempreture=v.findViewById(R.id.weakly_temperature_history_button);
       TextView monthly_tempreture=v.findViewById(R.id.monthly_temperature_history_button);
-      TextView yearly_tempreture=v.findViewById(R.id.yearly_weight_history_button);
+      TextView yearly_tempreture=v.findViewById(R.id.yearly_temperature_history_button);
 
     ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_tempreture_history_screen_id);
     imageView.setOnClickListener(
