@@ -24,6 +24,8 @@ public class Fragment_Weight_History_Screen extends Fragment {
   }
 
   View v;
+    GraphView graph = v.findViewById(R.id.graph);
+    LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.weight_history_black, container, false);
@@ -54,11 +56,24 @@ public class Fragment_Weight_History_Screen extends Fragment {
           yearly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("dw");
-        loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
+
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
+                      graph.removeAllSeries();
+                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                          // color of series
+                          series1.setColor(Color.argb(255, 237, 125, 49));
+                          // series.setDataPointsRadius(200);
+                          series1.setDrawDataPoints(true);
+                          series1.setDataPointsRadius(10);
+
+                      }
+                      graph.addSeries(series);
+                      loading_bar.setVisibility(View.INVISIBLE);
 
                   }
                 });
@@ -79,11 +94,23 @@ public class Fragment_Weight_History_Screen extends Fragment {
           yearly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
         myActivity.shoe.startHistoryReading("ww");
-        loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
+                      graph.removeAllSeries();
+                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                          // color of series
+                          series1.setColor(Color.argb(255, 237, 125, 49));
+                          // series.setDataPointsRadius(200);
+                          series1.setDrawDataPoints(true);
+                          series1.setDataPointsRadius(10);
+
+                      }
+                      graph.addSeries(series);
+                      loading_bar.setVisibility(View.INVISIBLE);
 
                   }
                 });
@@ -100,11 +127,23 @@ public class Fragment_Weight_History_Screen extends Fragment {
           monthly_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
           yearly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("mw");
-        loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
+                      graph.removeAllSeries();
+                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                          // color of series
+                          series1.setColor(Color.argb(255, 237, 125, 49));
+                          // series.setDataPointsRadius(200);
+                          series1.setDrawDataPoints(true);
+                          series1.setDataPointsRadius(10);
+
+                      }
+                      graph.addSeries(series);
+                      loading_bar.setVisibility(View.INVISIBLE);
 
                   }
                 });
@@ -122,11 +161,23 @@ public class Fragment_Weight_History_Screen extends Fragment {
           monthly_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
           yearly_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
         myActivity.shoe.startHistoryReading("yw");
-        loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
+                      graph.removeAllSeries();
+                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                          // color of series
+                          series1.setColor(Color.argb(255, 237, 125, 49));
+                          // series.setDataPointsRadius(200);
+                          series1.setDrawDataPoints(true);
+                          series1.setDataPointsRadius(10);
+
+                      }
+                      graph.addSeries(series);
+                      loading_bar.setVisibility(View.INVISIBLE);
 
                   }
                 });
@@ -136,8 +187,8 @@ public class Fragment_Weight_History_Screen extends Fragment {
 
 
     double x, y;
-    GraphView graph = v.findViewById(R.id.graph);
-    LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+    graph = v.findViewById(R.id.graph);
+    series = new LineGraphSeries<DataPoint>();
 
     for (int i = 0; i < 100; i++) {
       x = i;
