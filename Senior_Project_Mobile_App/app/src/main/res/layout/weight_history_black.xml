@@ -43,6 +43,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/daily_weight_history_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -56,6 +57,7 @@
                     android:textSize="@dimen/_13sdp" />
 
                 <TextView
+                    android:id="@+id/weakly_weight_history_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -69,6 +71,7 @@
                     android:textSize="@dimen/_13sdp" />
 
                 <TextView
+                    android:id="@+id/monthly_weight_history_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -82,6 +85,7 @@
                     android:textSize="@dimen/_13sdp" />
 
                 <TextView
+                    android:id="@+id/yearly_weight_history_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -161,5 +165,14 @@
         </RelativeLayout>
 
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/loading_bar_in_weights_history_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        />
 
 </RelativeLayout>
