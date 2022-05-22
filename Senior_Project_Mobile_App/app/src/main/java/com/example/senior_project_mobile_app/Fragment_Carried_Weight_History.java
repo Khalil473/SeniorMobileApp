@@ -18,18 +18,38 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class Fragment_Carried_Weight_History extends Fragment {
   MainActivity myActivity;
   ProgressBar loading_bar;
+    private void update_graph_data(String type){
+        loading_bar.setVisibility(View.VISIBLE);
+        myActivity.shoe.startHistoryReading(type);
+        graph.removeAllSeries();
+        myActivity.shoe.setOnHistoryReadFinished(
+                () -> {
+                    LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                    for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                        series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                        // color of series
+                        series1.setColor(Color.argb(255, 237, 125, 49));
+                        // series.setDataPointsRadius(200);
+                        series1.setDrawDataPoints(true);
+                        series1.setDataPointsRadius(10);
 
+                    }
+                    graph.addSeries(series1);
+                    loading_bar.setVisibility(View.INVISIBLE);
+
+                });
+    }
 
   public Fragment_Carried_Weight_History(MainActivity m) {
     myActivity = m;
   }
 
   View v;
-    GraphView graph = v.findViewById(R.id.graph);
-    LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+    GraphView graph;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.carried_wieght_history_black, container, false);
+      graph = v.findViewById(R.id.graph);
     loading_bar=v.findViewById(R.id.loading_bar_in_carried_weight_history_screen);
       TextView daily_carried_weight= v.findViewById(R.id.daily_carried_weight_history_button);
       TextView weakly_carried_weight=v.findViewById(R.id.weakly_carried_weight_history_button);
@@ -56,28 +76,7 @@ public class Fragment_Carried_Weight_History extends Fragment {
           monthly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
           yearly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
-        myActivity.shoe.startHistoryReading("dc");
-        myActivity.shoe.setOnHistoryReadFinished(
-                new OnHistoryReadFinishedListener() {
-                  @Override
-                  public void historyReadFinished() {
-                      graph.removeAllSeries();
-                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
-                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
-                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
-                          // color of series
-                          series1.setColor(Color.argb(255, 237, 125, 49));
-                          // series.setDataPointsRadius(200);
-                          series1.setDrawDataPoints(true);
-                          series1.setDataPointsRadius(10);
-
-                      }
-                      graph.addSeries(series);
-                      loading_bar.setVisibility(View.INVISIBLE);
-
-                  }
-                });
-
+          update_graph_data("dc");
       }
     });
 
@@ -92,29 +91,7 @@ public class Fragment_Carried_Weight_History extends Fragment {
           weakly_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
           monthly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
           yearly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-
-        myActivity.shoe.startHistoryReading("wc");
-        myActivity.shoe.setOnHistoryReadFinished(
-                new OnHistoryReadFinishedListener() {
-                  @Override
-                  public void historyReadFinished() {
-                      graph.removeAllSeries();
-                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
-                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
-                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
-                          // color of series
-                          series1.setColor(Color.argb(255, 237, 125, 49));
-                          // series.setDataPointsRadius(200);
-                          series1.setDrawDataPoints(true);
-                          series1.setDataPointsRadius(10);
-
-                      }
-                      graph.addSeries(series);
-                      loading_bar.setVisibility(View.INVISIBLE);
-
-                  }
-                });
-
+          update_graph_data("wc");
       }
     });
 
@@ -127,28 +104,7 @@ public class Fragment_Carried_Weight_History extends Fragment {
           weakly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
           monthly_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
           yearly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-        myActivity.shoe.startHistoryReading("mc");
-        myActivity.shoe.setOnHistoryReadFinished(
-                new OnHistoryReadFinishedListener() {
-                  @Override
-                  public void historyReadFinished() {
-                      graph.removeAllSeries();
-                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
-                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
-                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
-                          // color of series
-                          series1.setColor(Color.argb(255, 237, 125, 49));
-                          // series.setDataPointsRadius(200);
-                          series1.setDrawDataPoints(true);
-                          series1.setDataPointsRadius(10);
-
-                      }
-                      graph.addSeries(series);
-                      loading_bar.setVisibility(View.INVISIBLE);
-
-                  }
-                });
-
+          update_graph_data("mc");
       }
     });
 
@@ -161,28 +117,7 @@ public class Fragment_Carried_Weight_History extends Fragment {
           weakly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
           monthly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
           yearly_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-        myActivity.shoe.startHistoryReading("yc");
-        myActivity.shoe.setOnHistoryReadFinished(
-                new OnHistoryReadFinishedListener() {
-                  @Override
-                  public void historyReadFinished() {
-                      graph.removeAllSeries();
-                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
-                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
-                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
-                          // color of series
-                          series1.setColor(Color.argb(255, 237, 125, 49));
-                          // series.setDataPointsRadius(200);
-                          series1.setDrawDataPoints(true);
-                          series1.setDataPointsRadius(10);
-
-                      }
-                      graph.addSeries(series);
-                      loading_bar.setVisibility(View.INVISIBLE);
-
-                  }
-                });
-
+          update_graph_data("yc");
       }
     });
 
@@ -201,24 +136,16 @@ public class Fragment_Carried_Weight_History extends Fragment {
               avg_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
           }
       });
-
-
-    double x, y;
-    graph = v.findViewById(R.id.graph);
-    series = new LineGraphSeries<DataPoint>();
-
-    for (int i = 0; i < 100; i++) {
-      x = i;
-      y = Math.sin(i);
-      series.appendData(new DataPoint(x, y), false, 100);
-      // color of series
-      series.setColor(Color.argb(255, 237, 125, 49));
-      // series.setDataPointsRadius(200);
-      series.setDrawDataPoints(true);
-      series.setDataPointsRadius(10);
-    }
-
-    graph.addSeries(series);
+      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+          // color of series
+          series1.setColor(Color.argb(255, 237, 125, 49));
+          // series.setDataPointsRadius(200);
+          series1.setDrawDataPoints(true);
+          series1.setDataPointsRadius(10);
+      }
+    graph.addSeries(series1);
     // color of background color
     graph.setBackgroundColor(Color.argb(255, 2, 0, 3));
     // color of Horizontal  numbers
