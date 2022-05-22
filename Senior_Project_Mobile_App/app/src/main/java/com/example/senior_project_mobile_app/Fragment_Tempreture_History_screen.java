@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -14,6 +17,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class Fragment_Tempreture_History_screen extends Fragment {
 
   MainActivity myActivity;
+  ProgressBar loading_bar;
 
   public Fragment_Tempreture_History_screen(MainActivity m) {
     myActivity = m;
@@ -23,9 +27,9 @@ public class Fragment_Tempreture_History_screen extends Fragment {
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.temperature_history_black, container, false);
+    loading_bar=v.findViewById(R.id.loading_bar_in_temperature_history_screen);
 
-    ImageView imageView =
-        v.findViewById(R.id.GoBack_to_main_screen_from_black_tempreture_history_screen_id);
+    ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_tempreture_history_screen_id);
     imageView.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -33,6 +37,82 @@ public class Fragment_Tempreture_History_screen extends Fragment {
             myActivity.replaceFragment(new Fragment_Main_Screen(myActivity));
           }
         });
+
+
+    TextView daily_tempreture= v.findViewById(R.id.daily_temperature_history_button);
+    daily_tempreture.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+        myActivity.shoe.startHistoryReading("dt");
+        loading_bar.setVisibility(View.VISIBLE);
+        myActivity.shoe.setOnHistoryReadFinished(
+                new OnHistoryReadFinishedListener() {
+                  @Override
+                  public void historyReadFinished() {
+
+                  }
+                });
+
+      }
+    });
+
+
+
+    TextView weakly_tempreture=v.findViewById(R.id.weakly_temperature_history_button);
+    weakly_tempreture.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+        myActivity.shoe.startHistoryReading("wt");
+        loading_bar.setVisibility(View.VISIBLE);
+        myActivity.shoe.setOnHistoryReadFinished(
+                new OnHistoryReadFinishedListener() {
+                  @Override
+                  public void historyReadFinished() {
+
+                  }
+                });
+
+      }
+    });
+
+
+    TextView monthly_tempreture=v.findViewById(R.id.monthly_temperature_history_button);
+    monthly_tempreture.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        myActivity.shoe.startHistoryReading("mt");
+        loading_bar.setVisibility(View.VISIBLE);
+        myActivity.shoe.setOnHistoryReadFinished(
+                new OnHistoryReadFinishedListener() {
+                  @Override
+                  public void historyReadFinished() {
+
+                  }
+                });
+
+      }
+    });
+
+
+    TextView yearly_tempreture=v.findViewById(R.id.yearly_weight_history_button);
+    yearly_tempreture.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        myActivity.shoe.startHistoryReading("yt");
+        loading_bar.setVisibility(View.VISIBLE);
+        myActivity.shoe.setOnHistoryReadFinished(
+                new OnHistoryReadFinishedListener() {
+                  @Override
+                  public void historyReadFinished() {
+
+                  }
+                });
+
+      }
+    });
+
     GraphView graph = v.findViewById(R.id.graph);
     LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
 
