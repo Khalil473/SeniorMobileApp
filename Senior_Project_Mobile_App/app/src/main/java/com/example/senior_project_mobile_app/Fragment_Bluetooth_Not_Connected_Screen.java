@@ -119,6 +119,7 @@ public class Fragment_Bluetooth_Not_Connected_Screen extends Fragment {
                       tv.setOnClickListener(
                           (v) -> {
                             if (myActivity.shoe.getStatus() == Shoe.STATE_CONNECTED) {
+                              myActivity.shoe.startReading();
                               if (myActivity.shoe.isFirstTime())
                                 myActivity.replaceFragment(new Fragment_Login_Screen(myActivity));
                               else

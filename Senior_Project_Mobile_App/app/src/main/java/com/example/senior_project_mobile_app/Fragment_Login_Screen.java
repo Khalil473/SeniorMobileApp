@@ -16,6 +16,8 @@ public class Fragment_Login_Screen extends Fragment {
   }
 
   View v;
+  boolean count = false;
+  boolean connected = false;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.login_black, container, false);
@@ -24,8 +26,8 @@ public class Fragment_Login_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            myActivity.shoe.startReading();
-            myActivity.replaceFragment(new Fragment_Main_Screen(myActivity));
+            if (myActivity.shoe.isReadyForMainScreen())
+              myActivity.replaceFragment(new Fragment_Main_Screen(myActivity));
           }
         });
     return v;

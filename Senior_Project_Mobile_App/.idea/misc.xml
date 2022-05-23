@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Sacan2/SeniorMobileApp/Senior_Project_Mobile_App/app/src/main/res/layout/main_screen_black.xml" value="0.18" />
+        <entry key="..\:/Sacan2/SeniorMobileApp/Senior_Project_Mobile_App/app/src/main/res/layout/temperature_history_black.xml" value="0.20416666666666666" />
+        <entry key="..\:/Sacan2/SeniorMobileApp/Senior_Project_Mobile_App/app/src/main/res/layout/temperature_history_light.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Kyle/SeniorProjectRepo/Senior_Project_Mobile_App/app/src/main/res/layout/bluetooth_not_connected_black.xml" value="0.5" />
         <entry key="..\:/Users/Kyle/SeniorProjectRepo/Senior_Project_Mobile_App/app/src/main/res/layout/bluetooth_not_connected_light.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Kyle/SeniorProjectRepo/Senior_Project_Mobile_App/app/src/main/res/layout/devices_list.xml" value="0.5" />
@@ -10,6 +13,7 @@
         <entry key="..\:/Users/Kyle/SeniorProjectRepo/Senior_Project_Mobile_App/app/src/main/res/layout/main_screen_black.xml" value="0.33" />
         <entry key="..\:/Users/Kyle/SeniorProjectRepo/Senior_Project_Mobile_App/app/src/main/res/layout/settings_light.xml" value="0.33" />
         <entry key="..\:/Users/Kyle/SeniorProjectRepo/Senior_Project_Mobile_App/app/src/main/res/layout/setup_black.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/bluetooth_not_connected_black.xml" value="0.17325227963525835" />
       </map>
     </option>
   </component>
