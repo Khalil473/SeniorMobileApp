@@ -48,6 +48,7 @@ public class Fragment_Weight_History_Screen extends Fragment {
 
         myActivity.shoe.startHistoryReading("dw");
         myActivity.shoe.setOnHistoryReadFinished(
+
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
