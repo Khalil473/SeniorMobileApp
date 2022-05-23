@@ -24,6 +24,8 @@ public class Fragment_Weight_History_Screen extends Fragment {
   }
 
   View v;
+    GraphView graph = v.findViewById(R.id.graph);
+    LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.weight_history_black, container, false);
@@ -45,11 +47,23 @@ public class Fragment_Weight_History_Screen extends Fragment {
       public void onClick(View v) {
 
         myActivity.shoe.startHistoryReading("dw");
-        loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
+                      graph.removeAllSeries();
+                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                          // color of series
+                          series1.setColor(Color.argb(255, 237, 125, 49));
+                          // series.setDataPointsRadius(200);
+                          series1.setDrawDataPoints(true);
+                          series1.setDataPointsRadius(10);
+
+                      }
+                      graph.addSeries(series);
+                      loading_bar.setVisibility(View.INVISIBLE);
 
                   }
                 });
@@ -65,11 +79,23 @@ public class Fragment_Weight_History_Screen extends Fragment {
       public void onClick(View v) {
 
         myActivity.shoe.startHistoryReading("ww");
-        loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
+                      graph.removeAllSeries();
+                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                          // color of series
+                          series1.setColor(Color.argb(255, 237, 125, 49));
+                          // series.setDataPointsRadius(200);
+                          series1.setDrawDataPoints(true);
+                          series1.setDataPointsRadius(10);
+
+                      }
+                      graph.addSeries(series);
+                      loading_bar.setVisibility(View.INVISIBLE);
 
                   }
                 });
@@ -83,11 +109,23 @@ public class Fragment_Weight_History_Screen extends Fragment {
       @Override
       public void onClick(View v) {
         myActivity.shoe.startHistoryReading("mw");
-        loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
+                      graph.removeAllSeries();
+                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                          // color of series
+                          series1.setColor(Color.argb(255, 237, 125, 49));
+                          // series.setDataPointsRadius(200);
+                          series1.setDrawDataPoints(true);
+                          series1.setDataPointsRadius(10);
+
+                      }
+                      graph.addSeries(series);
+                      loading_bar.setVisibility(View.INVISIBLE);
 
                   }
                 });
@@ -101,11 +139,23 @@ public class Fragment_Weight_History_Screen extends Fragment {
       @Override
       public void onClick(View v) {
         myActivity.shoe.startHistoryReading("yw");
-        loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.setOnHistoryReadFinished(
                 new OnHistoryReadFinishedListener() {
                   @Override
                   public void historyReadFinished() {
+                      graph.removeAllSeries();
+                      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
+                      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
+                          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
+                          // color of series
+                          series1.setColor(Color.argb(255, 237, 125, 49));
+                          // series.setDataPointsRadius(200);
+                          series1.setDrawDataPoints(true);
+                          series1.setDataPointsRadius(10);
+
+                      }
+                      graph.addSeries(series);
+                      loading_bar.setVisibility(View.INVISIBLE);
 
                   }
                 });
@@ -115,8 +165,8 @@ public class Fragment_Weight_History_Screen extends Fragment {
 
 
     double x, y;
-    GraphView graph = v.findViewById(R.id.graph);
-    LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+    graph = v.findViewById(R.id.graph);
+    series = new LineGraphSeries<DataPoint>();
 
     for (int i = 0; i < 100; i++) {
       x = i;
