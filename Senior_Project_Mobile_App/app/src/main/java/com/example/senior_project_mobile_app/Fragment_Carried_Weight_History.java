@@ -21,7 +21,7 @@ public class Fragment_Carried_Weight_History extends Fragment {
 
     private void update_graph_data(String type){
         loading_bar.setVisibility(View.VISIBLE);
-        myActivity.shoe.startHistoryReading(type);
+        myActivity.shoe.startHistoryReading(type+"c");
         graph.removeAllSeries();
         myActivity.shoe.setOnHistoryReadFinished(
                 () -> {
@@ -45,10 +45,6 @@ public class Fragment_Carried_Weight_History extends Fragment {
     myActivity = m;
   }
 
-
-
-
-
   View v;
     GraphView graph;
     TextView daily_carried_weight,weakly_carried_weight,monthly_carried_weight,yearly_carried_weight;
@@ -65,10 +61,6 @@ public class Fragment_Carried_Weight_History extends Fragment {
 
 
     }
-
-
-
-
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
       v = inflater.inflate(R.layout.carried_wieght_history_black, container, false);
@@ -99,9 +91,8 @@ public class Fragment_Carried_Weight_History extends Fragment {
     buttons[0].setOnClickListener(new View.OnClickListener() {// daily
       @Override
       public void onClick(View v) {
-
-          changeButtonsColors(0);
-          update_graph_data("dc");
+         changeButtonsColors(0);
+         update_graph_data("d");
       }
     });
 
@@ -111,9 +102,8 @@ public class Fragment_Carried_Weight_History extends Fragment {
     buttons[1].setOnClickListener(new View.OnClickListener() {//weakly
       @Override
       public void onClick(View v) {
-
           changeButtonsColors(1);
-          update_graph_data("wc");
+          update_graph_data("w");
       }
     });
 
@@ -123,7 +113,7 @@ public class Fragment_Carried_Weight_History extends Fragment {
       @Override
       public void onClick(View v) {
           changeButtonsColors(2);
-          update_graph_data("mc");
+          update_graph_data("m");
       }
     });
 
@@ -132,9 +122,8 @@ public class Fragment_Carried_Weight_History extends Fragment {
     buttons[3].setOnClickListener(new View.OnClickListener() {//yearly
       @Override
       public void onClick(View v) {
-
           changeButtonsColors(3);
-          update_graph_data("yc");
+          update_graph_data("y");
       }
     });
 
@@ -153,16 +142,8 @@ public class Fragment_Carried_Weight_History extends Fragment {
               avg_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
           }
       });
-      LineGraphSeries<DataPoint> series1 = new LineGraphSeries<DataPoint>();
-      for (int i = 0; i < myActivity.shoe.historyData.size(); i++) {
-          series1.appendData(new DataPoint(i, myActivity.shoe.historyData.get(i)), false, 100);
-          // color of series
-          series1.setColor(Color.argb(255, 237, 125, 49));
-          // series.setDataPointsRadius(200);
-          series1.setDrawDataPoints(true);
-          series1.setDataPointsRadius(10);
-      }
-    graph.addSeries(series1);
+
+    //graph.addSeries(series1);
     // color of background color
     graph.setBackgroundColor(Color.argb(255, 2, 0, 3));
     // color of Horizontal  numbers
@@ -173,12 +154,12 @@ public class Fragment_Carried_Weight_History extends Fragment {
     // color of Horizontal and Vertical lines
     graph.getGridLabelRenderer().setGridColor(Color.argb(255, 209, 208, 209));
 
-    graph.getViewport().setScalable(true); // activate horizontal zooming and scrolling
+    /*graph.getViewport().setScalable(true); // activate horizontal zooming and scrolling
     graph.getViewport().setScrollable(true); // activate horizontal scrolling
     graph
         .getViewport()
         .setScalableY(true); // activate horizontal and vertical zooming and scrolling
-    graph.getViewport().setScrollableY(true); // activate vertical scrolling
+    graph.getViewport().setScrollableY(true); // activate vertical scrolling*/
     return v;
   }
 }
