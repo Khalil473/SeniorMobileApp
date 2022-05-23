@@ -6,10 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
 
 public class Fragment_Main_Screen extends Fragment {
@@ -20,46 +19,41 @@ public class Fragment_Main_Screen extends Fragment {
   }
 
   View v;
-  TextView temp,weight,humadity,speed,carred_weight;
+  TextView temp, weight, humadity, speed, carred_weight;
+  ProgressBar loading_bar;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.main_screen_black, container, false);
     myActivity.shoe.startDataNotify();
     temp = v.findViewById(R.id.temp_real_time);
     weight = v.findViewById(R.id.weight_real_time);
-    humadity=v.findViewById(R.id.humadity_real_time);
-    speed= v.findViewById(R.id.speed_real_time);
-    carred_weight=v.findViewById(R.id.carred_weight_real_time);
+    humadity = v.findViewById(R.id.humadity_real_time);
+    speed = v.findViewById(R.id.speed_real_time);
+    carred_weight = v.findViewById(R.id.carred_weight_real_time);
+    loading_bar = v.findViewById(R.id.loading_bar);
+
     myActivity.shoe.setOnDataReceivedListener(
         (data) -> {
           if (data.startsWith("w")) {
 
-              weight.setText(data.substring(1));
-          }
-          else if (data.startsWith("t"))
-          {
-              temp.setText(data.substring(1)+"");
+            weight.setText(data.substring(1));
+          } else if (data.startsWith("t")) {
+            temp.setText(data.substring(1) + "");
 
+          } else if (data.startsWith("h")) {
+            humadity.setText(data.substring(1) + "");
+          } else if (data.startsWith("s")) {
+            speed.setText(data.substring(1));
+          } else if (data.startsWith("cw")) {
+            carred_weight.setText(data.substring(2));
           }
-          else if(data.startsWith("h"))
-          {
-              humadity.setText(data.substring(1)+"");
-          }
-          else if(data.startsWith("s"))
-          {
-              speed.setText(data.substring(1));
-          }
-          else if(data.startsWith("cw"))
-          {
-              carred_weight.setText(data.substring(2));
-          }
-
         });
     ImageView imageView = v.findViewById(R.id.settings_image_black_id);
     imageView.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Settings_Screen(myActivity));
           }
         });
@@ -78,6 +72,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Weight_History_Screen(myActivity));
           }
         });
@@ -87,6 +82,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+            myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Tempreture_History_screen(myActivity));
           }
         });
@@ -96,6 +92,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Humadity_Screen(myActivity));
           }
         });
@@ -105,17 +102,18 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Speed_History(myActivity));
           }
         });
 
-    LinearLayout linearLayout_Carried_Weight =
-        v.findViewById(R.id.linear_layout_Carried_Weight_history_id);
+    LinearLayout linearLayout_Carried_Weight = v.findViewById(R.id.linear_layout_Carried_Weight_history_id);
     linearLayout_Carried_Weight.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            myActivity.replaceFragment(new Fragment_Carried_Weight_History(myActivity));
+              myActivity.shoe.sendData("disconnect");
+              myActivity.replaceFragment(new Fragment_Carried_Weight_History(myActivity));
           }
         });
 
@@ -123,13 +121,16 @@ public class Fragment_Main_Screen extends Fragment {
     linearLayout_Location.setOnClickListener(
         new View.OnClickListener() {
           @Override
-          public void onClick(View v) {}
+          public void onClick(View v) {
+              myActivity.shoe.sendData("disconnect");
+          }
         });
     LinearLayout linearLayout_BMI = v.findViewById(R.id.linear_layout_BMI_id);
     linearLayout_BMI.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_BMI_Screen(myActivity));
           }
         });

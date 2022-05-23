@@ -34,7 +34,8 @@ public class Shoe {
   private OnDataReceivedListener dataReceivedListener;
   private OnBluetoothSearchFinishedListener bluetoothSearchFinishedListener;
   private OnBluetoothDisconnectedListener bluetoothDisconnectedListener;
-  private OnHistoryReadFinished historyReadFinished;
+  private OnHistoryReadFinishedListener historyReadFinishedListener;
+  private OnWriteFinishedListener writeFinishedListener;
   public static final int STATE_BLUETOOTH_NOT_SUPPORTED = 3;
   public static final int STATE_CONNECTED = 6;
   public static final int STATE_CONNECTING = 7;
@@ -47,7 +48,7 @@ public class Shoe {
   public static final int STATE_READING_HISTORY = 9;
   public static final int STATE_SENDING_ACK = 10;
   public static final int STATE_SENDING_DATA = 11;
-  public final ArrayList<Integer> historyData;
+  public final ArrayList<Float> historyData;
 
   public Shoe(MainActivity myActivity) {
     scanResult = new ArrayList<>();
@@ -129,14 +130,31 @@ public class Shoe {
             if (status == BluetoothGatt.GATT_SUCCESS) {
               String dataFromCharacteristic =
                   new String(characteristic.getValue(), StandardCharsets.UTF_8);
-              myActivity.runOnUiThread(
-                  new Runnable() {
-                    @Override
-                    public void run() {
-                      dataReceivedListener.dataReceivedListener(dataFromCharacteristic);
-                    }
-                  });
-
+              if (Shoe.this.status == STATE_READING_HISTORY) {
+                String[] recData = dataFromCharacteristic.split(",");
+                for (String data : recData) {
+                  if (data.startsWith("h-1")) {
+                    myActivity.runOnUiThread(
+                        new Runnable() {
+                          @Override
+                          public void run() {
+                            historyReadFinishedListener.historyReadFinished();
+                          }
+                        });
+                    Shoe.this.status = STATE_CONNECTED;
+                  } else {
+                    historyData.add(Float.parseFloat(data));
+                  }
+                }
+              } else {
+                myActivity.runOnUiThread(
+                    new Runnable() {
+                      @Override
+                      public void run() {
+                        dataReceivedListener.dataReceivedListener(dataFromCharacteristic);
+                      }
+                    });
+              }
               sendACK();
             }
           }
@@ -164,6 +182,15 @@ public class Shoe {
           @Override
           public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
             super.onReliableWriteCompleted(gatt, status);
+            if (writeFinishedListener != null)
+              myActivity.runOnUiThread(
+                  new Runnable() {
+                    @Override
+                    public void run() {
+                      writeFinishedListener.writeFinished();
+                    }
+                  });
+            status = STATE_CONNECTED;
           }
         };
   }
@@ -338,29 +365,72 @@ public class Shoe {
   }
 
   public void startDataNotify() {
+    defaultCharacteristic.setValue("connected".getBytes(StandardCharsets.UTF_8));
     if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
         != PackageManager.PERMISSION_GRANTED)
       ;
-    bluetoothGatt.setCharacteristicNotification(defaultCharacteristic, true);
-    UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID =
-        UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-    BluetoothGattDescriptor descriptor =
-        defaultCharacteristic.getDescriptor(CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
-    boolean enabled = descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-    bluetoothGatt.writeDescriptor(descriptor);
+    bluetoothGatt.writeCharacteristic(defaultCharacteristic);
+    setOnWriteFinishedListener(
+        new OnWriteFinishedListener() {
+          @Override
+          public void writeFinished() {
+            myActivity.runOnUiThread(
+                new Runnable() {
+                  @Override
+                  public void run() {
+                    if (ActivityCompat.checkSelfPermission(
+                            myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+                        != PackageManager.PERMISSION_GRANTED)
+                      ;
+                    bluetoothGatt.setCharacteristicNotification(defaultCharacteristic, true);
+                    UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID =
+                        UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+                    BluetoothGattDescriptor descriptor =
+                        defaultCharacteristic.getDescriptor(
+                            CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
+                    boolean enabled =
+                        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                    bluetoothGatt.writeDescriptor(descriptor);
+                  }
+                });
+          }
+        });
   }
 
-  public void stopDataNotify() {
-    if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
-        != PackageManager.PERMISSION_GRANTED)
-      ;
-    bluetoothGatt.setCharacteristicNotification(defaultCharacteristic, false);
-    UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID =
-        UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-    BluetoothGattDescriptor descriptor =
-        defaultCharacteristic.getDescriptor(CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
-    boolean enabled = descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
-    bluetoothGatt.writeDescriptor(descriptor);
+  public void stopDataNotify() { // TODO: Check why its not sending disconnect to BLE
+    myActivity.runOnUiThread(()->{
+      defaultCharacteristic.setValue("disconnect".getBytes(StandardCharsets.UTF_8));
+      if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+              != PackageManager.PERMISSION_GRANTED)
+        ;
+      bluetoothGatt.writeCharacteristic(defaultCharacteristic);
+      setOnWriteFinishedListener(
+              new OnWriteFinishedListener() {
+                @Override
+                public void writeFinished() {
+                  myActivity.runOnUiThread(
+                          new Runnable() {
+                            @Override
+                            public void run() {
+                              if (ActivityCompat.checkSelfPermission(
+                                      myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+                                      != PackageManager.PERMISSION_GRANTED)
+                                ;
+                              bluetoothGatt.setCharacteristicNotification(defaultCharacteristic, false);
+                              UUID CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID =
+                                      UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+                              BluetoothGattDescriptor descriptor =
+                                      defaultCharacteristic.getDescriptor(
+                                              CHARACTERISTIC_UPDATE_NOTIFICATION_DESCRIPTOR_UUID);
+                              boolean enabled =
+                                      descriptor.setValue(BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE);
+                              bluetoothGatt.writeDescriptor(descriptor);
+                            }
+                          });
+                }
+              });
+    });
+
   }
 
   private void sendACK() {
@@ -369,11 +439,6 @@ public class Shoe {
         != PackageManager.PERMISSION_GRANTED)
       ;
     bluetoothGatt.writeCharacteristic(defaultCharacteristic);
-    status = STATE_SENDING_ACK;
-  }
-
-  public boolean isReadyToRead() {
-    return defaultCharacteristic != null;
   }
 
   public void disconnectDevice() {
@@ -401,11 +466,31 @@ public class Shoe {
   }
 
   public void startHistoryReading(String type) {
-    sendData("h" + type);
-    status = STATE_READING_HISTORY;
+    historyData.clear();
+    myActivity.runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        defaultCharacteristic.setValue(("h" + type).getBytes(StandardCharsets.UTF_8));
+        if (ActivityCompat.checkSelfPermission(myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+                != PackageManager.PERMISSION_GRANTED)
+          ;
+        status = STATE_READING_HISTORY;
+        bluetoothGatt.writeCharacteristic(defaultCharacteristic);
+
+      }
+    });
+
   }
 
-  public void setOnHistoryReadFinished(OnHistoryReadFinished historyReadFinished) {
-    this.historyReadFinished = historyReadFinished;
+  public void setOnHistoryReadFinished(OnHistoryReadFinishedListener historyReadFinished) {
+    this.historyReadFinishedListener = historyReadFinished;
+  }
+
+  public void setOnWriteFinishedListener(OnWriteFinishedListener writeFinishedListener) {
+    this.writeFinishedListener = writeFinishedListener;
+  }
+
+  public boolean isReadyForMainScreen() {
+    return !(defaultCharacteristic == null);
   }
 }

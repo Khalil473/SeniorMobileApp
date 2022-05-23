@@ -19,16 +19,16 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void replaceFragment(Fragment fragment) {
-    if(!(fragment instanceof Fragment_Login_Screen
-            || fragment instanceof Fragment_Setup_Screen
-            || fragment instanceof Fragment_Main_Screen
-            || fragment instanceof Fragment_Bluetooth_Not_Connected_Screen)){
-      shoe.stopDataNotify();
-      shoe.setOnDataReceivedListener(new OnDataReceivedListener() {
-        @Override
-        public void dataReceivedListener(String data) {
-        }
-      });
+    if (!(fragment instanceof Fragment_Login_Screen
+        || fragment instanceof Fragment_Setup_Screen
+        || fragment instanceof Fragment_Main_Screen
+        || fragment instanceof Fragment_Bluetooth_Not_Connected_Screen)) {
+      //shoe.stopDataNotify();
+      shoe.setOnDataReceivedListener(
+          new OnDataReceivedListener() {
+            @Override
+            public void dataReceivedListener(String data) {}
+          });
     }
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -42,5 +42,18 @@ public class MainActivity extends AppCompatActivity {
       fragmentTransaction.addToBackStack("back to connect with bluetooth screen");
     fragmentManager.executePendingTransactions();
     fragmentTransaction.commit();
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    shoe.sendData("disconnect");
+    shoe.setOnWriteFinishedListener(
+        new OnWriteFinishedListener() {
+          @Override
+          public void writeFinished() {
+            shoe.disconnectDevice();
+          }
+        });
   }
 }
