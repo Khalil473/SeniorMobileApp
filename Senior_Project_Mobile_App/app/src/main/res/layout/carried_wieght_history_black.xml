@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
-                    android:background="@drawable/purple_background_for_buttons_in_blacked_history_screens"
+                    android:background="@drawable/gray_background_for_buttons_in_blacked_history_screens"
                     android:paddingLeft="@dimen/_4sdp"
                     android:paddingTop="@dimen/_4sdp"
                     android:paddingRight="@dimen/_4sdp"
