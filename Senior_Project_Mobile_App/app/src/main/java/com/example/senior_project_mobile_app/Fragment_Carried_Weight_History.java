@@ -18,6 +18,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class Fragment_Carried_Weight_History extends Fragment {
   MainActivity myActivity;
   ProgressBar loading_bar;
+
     private void update_graph_data(String type){
         loading_bar.setVisibility(View.VISIBLE);
         myActivity.shoe.startHistoryReading(type);
@@ -44,19 +45,46 @@ public class Fragment_Carried_Weight_History extends Fragment {
     myActivity = m;
   }
 
+
+
+
+
   View v;
     GraphView graph;
+    TextView daily_carried_weight,weakly_carried_weight,monthly_carried_weight,yearly_carried_weight;
+    TextView []buttons;
+    void changeButtonsColors(Integer index)
+    {
+        for (int i=0;i<4;i++)
+        {
+            if(i==index)
+                buttons[i].setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+            else
+                buttons[i].setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+        }
+
+
+    }
+
+
+
+
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
-    v = inflater.inflate(R.layout.carried_wieght_history_black, container, false);
+      v = inflater.inflate(R.layout.carried_wieght_history_black, container, false);
       graph = v.findViewById(R.id.graph);
-    loading_bar=v.findViewById(R.id.loading_bar_in_carried_weight_history_screen);
-      TextView daily_carried_weight= v.findViewById(R.id.daily_carried_weight_history_button);
-      TextView weakly_carried_weight=v.findViewById(R.id.weakly_carried_weight_history_button);
-      TextView monthly_carried_weight=v.findViewById(R.id.monthly_carried_weight_history_button);
-      TextView yearly_carried_weight=v.findViewById(R.id.yearly_carried_weight_history_button);
+        buttons=new TextView[4];
+      loading_bar=v.findViewById(R.id.loading_bar_in_carried_weight_history_screen);
+      buttons[0]= v.findViewById(R.id.daily_carried_weight_history_button);
+      buttons[1]=v.findViewById(R.id.weakly_carried_weight_history_button);
+
+      buttons[2]=v.findViewById(R.id.monthly_carried_weight_history_button);
+
+      buttons[3]=v.findViewById(R.id.yearly_carried_weight_history_button);
       TextView max_carried_weight=v.findViewById(R.id.max_carried_weight_button_in_carried_weight_screen);
       TextView avg_carried_weight=v.findViewById(R.id.avg_carried_weight_button_in_carried_weight_screen);
+
+
 
     ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_carried_weight_screen_id);
     imageView.setOnClickListener(
@@ -68,14 +96,11 @@ public class Fragment_Carried_Weight_History extends Fragment {
         });
 
 
-    daily_carried_weight.setOnClickListener(new View.OnClickListener() {
+    buttons[0].setOnClickListener(new View.OnClickListener() {// daily
       @Override
       public void onClick(View v) {
-          daily_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-          weakly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          monthly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          yearly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
 
+          changeButtonsColors(0);
           update_graph_data("dc");
       }
     });
@@ -83,40 +108,32 @@ public class Fragment_Carried_Weight_History extends Fragment {
 
 
 
-    weakly_carried_weight.setOnClickListener(new View.OnClickListener() {
+    buttons[1].setOnClickListener(new View.OnClickListener() {//weakly
       @Override
       public void onClick(View v) {
 
-          daily_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          weakly_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-          monthly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          yearly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          changeButtonsColors(1);
           update_graph_data("wc");
       }
     });
 
 
 
-    monthly_carried_weight.setOnClickListener(new View.OnClickListener() {
+    buttons[2].setOnClickListener(new View.OnClickListener() {//monthly
       @Override
       public void onClick(View v) {
-          daily_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          weakly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          monthly_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-          yearly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+          changeButtonsColors(2);
           update_graph_data("mc");
       }
     });
 
 
 
-    yearly_carried_weight.setOnClickListener(new View.OnClickListener() {
+    buttons[3].setOnClickListener(new View.OnClickListener() {//yearly
       @Override
       public void onClick(View v) {
-          daily_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          weakly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          monthly_carried_weight.setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-          yearly_carried_weight.setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+
+          changeButtonsColors(3);
           update_graph_data("yc");
       }
     });
