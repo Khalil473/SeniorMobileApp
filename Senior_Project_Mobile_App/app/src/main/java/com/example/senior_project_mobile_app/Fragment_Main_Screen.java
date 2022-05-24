@@ -107,7 +107,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            myActivity.shoe.stopDataNotify();
+              myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Speed_History(myActivity));
           }
         });
