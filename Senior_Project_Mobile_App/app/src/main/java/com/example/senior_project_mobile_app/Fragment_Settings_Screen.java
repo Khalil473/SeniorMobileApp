@@ -127,6 +127,7 @@ public class Fragment_Settings_Screen extends Fragment {
           public void onNothingSelected(AdapterView<?> parent) {
 
           }
+
       });
 
 

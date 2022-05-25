@@ -273,6 +273,7 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
+
                         <Spinner
                             android:id="@+id/SpeedUnitSpinner"
                             android:layout_width="wrap_content"
