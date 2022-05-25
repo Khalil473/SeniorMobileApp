@@ -43,10 +43,6 @@ public class Fragment_Carried_Weight_History extends Fragment {
 
   View v;
   GraphView graph;
-  TextView daily_carried_weight,
-      weakly_carried_weight,
-      monthly_carried_weight,
-      yearly_carried_weight;
   TextView[] buttons;
 
   void changeButtonsColors(Integer index) {

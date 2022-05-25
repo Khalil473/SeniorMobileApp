@@ -43,18 +43,27 @@ public class Fragment_Speed_History extends Fragment {
 
   View v;
   GraphView graph;
+    TextView []buttons;
+    void changeButtonsColors(Integer index) {
+        for (int i = 0; i < 4; i++) {
+            if (i == index)
+                buttons[i].setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+            else
+                buttons[i].setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+        }
+    }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.max_speed_history_black, container, false);
     graph = v.findViewById(R.id.graph);
+      buttons = new TextView[4];
     loading_bar = v.findViewById(R.id.loading_bar_in_speed_history_screen);
-    TextView daily_max_speed = v.findViewById(R.id.daily_max_speed_history_button);
-    TextView weakly_max_speed = v.findViewById(R.id.weakly_max_speed_history_button);
-    TextView monthly_max_speed = v.findViewById(R.id.monthly_max_speed_history_button);
-    TextView yearly_max_speed = v.findViewById(R.id.yearly_max_speed_history_button);
+    buttons[0] = v.findViewById(R.id.daily_max_speed_history_button);//daily
+    buttons[1] = v.findViewById(R.id.weakly_max_speed_history_button);//weakly
+    buttons[2] = v.findViewById(R.id.monthly_max_speed_history_button);//monthly
+    buttons[3] = v.findViewById(R.id.yearly_max_speed_history_button);// yearly
 
-    ImageView imageView =
-        v.findViewById(R.id.GoBack_to_main_screen_from_black_max_speed_history_screen_id);
+    ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_max_speed_history_screen_id);
     imageView.setOnClickListener(
         new View.OnClickListener() {
           @Override
@@ -63,68 +72,40 @@ public class Fragment_Speed_History extends Fragment {
           }
         });
 
-    daily_max_speed.setOnClickListener(
+    buttons[0].setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            daily_max_speed.setBackgroundResource(
-                R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-            weakly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            monthly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            yearly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+            changeButtonsColors(0);
 
             update_graph_data("d");
           }
         });
 
-    weakly_max_speed.setOnClickListener(
+    buttons[1].setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            daily_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            weakly_max_speed.setBackgroundResource(
-                R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-            monthly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            yearly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+            changeButtonsColors(1);
 
             update_graph_data("w");
           }
         });
 
-    monthly_max_speed.setOnClickListener(
+    buttons[2].setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            daily_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            weakly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            monthly_max_speed.setBackgroundResource(
-                R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-            yearly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+            changeButtonsColors(2);
             update_graph_data("m");
           }
         });
 
-    yearly_max_speed.setOnClickListener(
+    buttons[3].setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            daily_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            weakly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            monthly_max_speed.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            yearly_max_speed.setBackgroundResource(
-                R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+            changeButtonsColors(3);
             update_graph_data("y");
           }
         });
