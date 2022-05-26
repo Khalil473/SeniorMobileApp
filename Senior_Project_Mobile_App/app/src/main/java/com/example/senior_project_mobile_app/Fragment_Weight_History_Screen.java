@@ -123,13 +123,13 @@ public class Fragment_Weight_History_Screen extends Fragment {
     // graph.getGridLabelRenderer().setVerticalLabelsVisible(true);
     // color of Horizontal and Vertical lines
     graph.getGridLabelRenderer().setGridColor(Color.argb(255, 209, 208, 209));
-
+/*
     graph.getViewport().setScalable(true); // activate horizontal zooming and scrolling
     graph.getViewport().setScrollable(true); // activate horizontal scrolling
     graph
         .getViewport()
         .setScalableY(true); // activate horizontal and vertical zooming and scrolling
-    graph.getViewport().setScrollableY(true); // activate vertical scrolling
+    graph.getViewport().setScrollableY(true); // activate vertical scrolling*/
     return v;
   }
 }
