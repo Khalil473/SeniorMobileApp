@@ -44,15 +44,25 @@ public class Fragment_Tempreture_History_screen extends Fragment {
 
   View v;
   GraphView graph;
+    TextView []buttons;
+    void changeButtonsColors(Integer index) {
+        for (int i = 0; i < 4; i++) {
+            if (i == index)
+                buttons[i].setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+            else
+                buttons[i].setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+        }
+    }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.temperature_history_black, container, false);
     graph = v.findViewById(R.id.graph);
+      buttons = new TextView[4];
     loading_bar = v.findViewById(R.id.loading_bar_in_temperature_history_screen);
-    TextView daily_tempreture = v.findViewById(R.id.daily_temperature_history_button);
-    TextView weakly_tempreture = v.findViewById(R.id.weakly_temperature_history_button);
-    TextView monthly_tempreture = v.findViewById(R.id.monthly_temperature_history_button);
-    TextView yearly_tempreture = v.findViewById(R.id.yearly_temperature_history_button);
+    buttons[0] = v.findViewById(R.id.daily_temperature_history_button);//daily
+    buttons[1] = v.findViewById(R.id.weakly_temperature_history_button);//weakly
+    buttons[2] = v.findViewById(R.id.monthly_temperature_history_button);//monthly
+    buttons[3] = v.findViewById(R.id.yearly_temperature_history_button);//yearly
 
     ImageView imageView =
         v.findViewById(R.id.GoBack_to_main_screen_from_black_tempreture_history_screen_id);
@@ -64,71 +74,43 @@ public class Fragment_Tempreture_History_screen extends Fragment {
           }
         });
 
-    daily_tempreture.setOnClickListener(
+    buttons[0].setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
 
-            daily_tempreture.setBackgroundResource(
-                R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-            weakly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            monthly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            yearly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+            changeButtonsColors(0);
 
             update_graph_data("d");
           }
         });
 
-    weakly_tempreture.setOnClickListener(
+    buttons[1].setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
 
-            daily_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            weakly_tempreture.setBackgroundResource(
-                R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-            monthly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            yearly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+            changeButtonsColors(1);
 
             update_graph_data("w");
           }
         });
 
-    monthly_tempreture.setOnClickListener(
+    buttons[2].setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
 
-            daily_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            weakly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            monthly_tempreture.setBackgroundResource(
-                R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-            yearly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
+            changeButtonsColors(2);
             update_graph_data("m");
           }
         });
 
-    yearly_tempreture.setOnClickListener(
+    buttons[3].setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            daily_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            weakly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            monthly_tempreture.setBackgroundResource(
-                R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-            yearly_tempreture.setBackgroundResource(
-                R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+            changeButtonsColors(3);
             update_graph_data("y");
           }
         });

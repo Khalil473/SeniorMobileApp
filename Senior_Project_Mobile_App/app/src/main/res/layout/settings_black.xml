@@ -24,7 +24,6 @@
 
             <ImageView
                 android:id="@+id/GoBack_to_main_screen_from_black_settings_screen_id"
-                android:onClick="onClick_GoBack_to_main_screen_from_all_screens"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -32,7 +31,8 @@
                 android:layout_marginTop="@dimen/_18sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
-                android:background="@drawable/blackhome" />
+                android:background="@drawable/blackhome"
+                android:onClick="onClick_GoBack_to_main_screen_from_all_screens" />
 
 
             <LinearLayout
@@ -75,21 +75,36 @@
                             android:layout_centerVertical="true"
                             android:paddingTop="@dimen/_3sdp"
                             android:paddingBottom="@dimen/_6sdp"
-                            android:text="My height"
+                            android:text="My Height"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/height_unit_id"
+                            android:maxLength="3"
+                            android:maxLines="1"
+                            android:paddingTop="@dimen/_3sdp"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:text="175"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView
+                            android:id="@+id/height_unit_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:paddingTop="@dimen/_3sdp"
                             android:paddingBottom="@dimen/_6sdp"
-                            android:text="175cm"
+                            android:text="cm"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView
+                            android:id="@+id/saveChangesOnHeightFromSettingsScreen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -121,21 +136,36 @@
                             android:layout_centerVertical="true"
                             android:paddingTop="@dimen/_3sdp"
                             android:paddingBottom="@dimen/_6sdp"
-                            android:text="Max lift"
+                            android:text="Max Lift"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/max_lift_weight_unit_id"
+                            android:maxLength="3"
+                            android:maxLines="1"
+                            android:paddingTop="@dimen/_3sdp"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:text="20"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView
+                            android:id="@+id/max_lift_weight_unit_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:paddingTop="@dimen/_3sdp"
                             android:paddingBottom="@dimen/_6sdp"
-                            android:text="20Kg"
+                            android:text="Kg"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView
+                            android:id="@+id/saveChangesOnMaxLiftWeightFromSettingsScreen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -162,22 +192,28 @@
                         android:paddingBottom="@dimen/_1sdp">
 
                         <TextView
+                            android:id="@+id/deviceNameIdSettingsScreen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Device name"
+                            android:text="Device Name: "
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/changeDeviceNameFromSettingsScreen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@+id/deviceNameIdSettingsScreen"
                             android:text="AA"
+                            android:maxLength="14"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView
+                            android:id="@+id/saveChangesOnDeviceNameFromSettingsScreen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -237,25 +273,16 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:paddingTop="@dimen/_3sdp"
-                            android:paddingBottom="@dimen/_6sdp"
-                            android:text="m/h"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp" />
 
-                        <TextView
+                        <Spinner
+                            android:id="@+id/SpeedUnitSpinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:drawableRight="@drawable/blackarrow"
-                            android:paddingTop="@dimen/_3sdp"
-                            android:paddingRight="@dimen/_6sdp"
-                            android:paddingBottom="@dimen/_6sdp" />
+                            android:entries="@array/speed_units"
+                            android:textAlignment="center" />
+
+
                     </RelativeLayout>
 
                     <TextView
@@ -283,25 +310,13 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:paddingTop="@dimen/_3sdp"
-                            android:paddingBottom="@dimen/_6sdp"
-                            android:text="Kg"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp" />
-
-                        <TextView
+                        <Spinner
+                            android:id="@+id/WeightUnitSpinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:drawableRight="@drawable/blackarrow"
-                            android:paddingTop="@dimen/_3sdp"
-                            android:paddingRight="@dimen/_6sdp"
-                            android:paddingBottom="@dimen/_6sdp" />
+                            android:entries="@array/weight_units"
+                            android:textAlignment="center" />
                     </RelativeLayout>
 
                     <TextView
@@ -311,40 +326,7 @@
                         android:layout_marginRight="@dimen/_6sdp"
                         android:background="@color/grayForblackLineInSetting" />
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_6sdp"
-                        android:paddingTop="@dimen/_1sdp"
-                        android:paddingBottom="@dimen/_1sdp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="Humidity"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="AA"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:drawableRight="@drawable/blackarrow"
-                            android:paddingTop="@dimen/_3sdp"
-                            android:paddingRight="@dimen/_6sdp"
-                            android:paddingBottom="@dimen/_6sdp" />
-                    </RelativeLayout>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
@@ -367,23 +349,16 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="C"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp" />
-
-                        <TextView
+                        <Spinner
+                            android:id="@+id/TempretureUnitSpinner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:drawableRight="@drawable/blackarrow"
-                            android:paddingTop="@dimen/_3sdp"
-                            android:paddingRight="@dimen/_6sdp"
-                            android:paddingBottom="@dimen/_6sdp" />
+                            android:entries="@array/Temerature_units"
+                            android:textAlignment="center" />
+
+
+
                     </RelativeLayout>
                     <TextView
                         android:layout_width="match_parent"
@@ -391,40 +366,7 @@
                         android:layout_marginLeft="@dimen/_6sdp"
                         android:layout_marginRight="@dimen/_6sdp"
                         android:background="@color/grayForblackLineInSetting" />
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_6sdp"
-                        android:paddingTop="@dimen/_1sdp"
-                        android:paddingBottom="@dimen/_1sdp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="BMI"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="Kg/m2"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:drawableRight="@drawable/blackarrow"
-                            android:paddingTop="@dimen/_3sdp"
-                            android:paddingRight="@dimen/_6sdp"
-                            android:paddingBottom="@dimen/_6sdp" />
-                    </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -477,6 +419,7 @@
 
 
                         <Switch
+                            android:id="@+id/WeightExceededNotificationSwitchOnSettingsScreen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -512,8 +455,8 @@
                             android:textSize="@dimen/_15sdp" />
 
 
-
                         <Switch
+                            android:id="@+id/HumidityExceededNotificationSwitchOnSettingsScreen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
