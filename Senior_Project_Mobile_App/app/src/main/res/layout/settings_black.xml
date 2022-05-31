@@ -13,7 +13,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv1"
+                android:id="@+id/TextView_Device_Name_in_Settings_Screen_Black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
@@ -39,7 +39,7 @@
                 android:id="@+id/LinearGeneral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv1"
+                android:layout_below="@id/TextView_Device_Name_in_Settings_Screen_Black"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:layout_marginRight="@dimen/_15sdp"
@@ -80,6 +80,7 @@
                             android:textSize="@dimen/_15sdp" />
 
                         <EditText
+                            android:id="@+id/EditText_My_Height_in_settings_screen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -88,6 +89,7 @@
                             android:maxLines="1"
                             android:paddingTop="@dimen/_3sdp"
                             android:paddingBottom="@dimen/_6sdp"
+                            android:singleLine="true"
                             android:text="175"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
@@ -141,6 +143,7 @@
                             android:textSize="@dimen/_15sdp" />
 
                         <EditText
+                            android:id="@+id/EditText_Max_Lift_in_settings_screen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -149,6 +152,7 @@
                             android:maxLines="1"
                             android:paddingTop="@dimen/_3sdp"
                             android:paddingBottom="@dimen/_6sdp"
+                            android:singleLine="true"
                             android:text="20"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
@@ -201,14 +205,16 @@
                             android:textSize="@dimen/_15sdp" />
 
                         <EditText
-                            android:id="@+id/changeDeviceNameFromSettingsScreen"
+                            android:id="@+id/EditText_Device_Name_in_settings_screen"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@+id/deviceNameIdSettingsScreen"
-                            android:text="AA"
+                            android:text="TEST"
                             android:maxLength="14"
+                            android:maxLines="1"
+                            android:singleLine="true"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />
 

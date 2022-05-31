@@ -44,6 +44,7 @@ public class Fragment_Speed_History extends Fragment {
   View v;
   GraphView graph;
     TextView []buttons;
+    TextView TV_deviceNmae;
     void changeButtonsColors(Integer index) {
         for (int i = 0; i < 4; i++) {
             if (i == index)
@@ -56,6 +57,8 @@ public class Fragment_Speed_History extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.max_speed_history_black, container, false);
     graph = v.findViewById(R.id.graph);
+    TV_deviceNmae=v.findViewById(R.id.TextView_Device_Name_in_Speed_History_Screen_Black);
+    TV_deviceNmae.setText(myActivity.DeviceName);
       buttons = new TextView[4];
     loading_bar = v.findViewById(R.id.loading_bar_in_speed_history_screen);
     buttons[0] = v.findViewById(R.id.daily_max_speed_history_button);//daily

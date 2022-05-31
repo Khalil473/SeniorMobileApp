@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
@@ -19,7 +20,7 @@ public class Fragment_Main_Screen extends Fragment {
   }
 
   View v;
-  TextView temp, weight, humadity, speed, carred_weight;
+  TextView temp, weight, humadity, speed, carred_weight,deviceName;
   ProgressBar loading_bar;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
@@ -31,6 +32,12 @@ public class Fragment_Main_Screen extends Fragment {
     speed = v.findViewById(R.id.speed_real_time);
     carred_weight = v.findViewById(R.id.carred_weight_real_time);
     loading_bar = v.findViewById(R.id.loading_bar);
+    deviceName=v.findViewById(R.id.DeviceNameInMainScreen);
+    deviceName.setText(myActivity.DeviceName);
+    String SpeedUnit=MySharedPreference.RetrieveSpeedUnit(myActivity);
+    String WeightUnit =MySharedPreference.RetrieveWeightUnit(myActivity);
+    String TemperatureUnit=MySharedPreference.RetrieveTemperatureUnit(myActivity);
+
 
     myActivity.shoe.setOnDataReceivedListener(
         (data) -> {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -23,12 +24,23 @@ public class Fragment_Settings_Screen extends Fragment {
     myActivity = m;
   }
 
-  View v;
+  View v,mainScreenView;
+  TextView TV_deviceName;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.settings_black, container, false);
       ImageView goToMainScreen;
       TextView saveChangesHeight,saveChangesMaxLift,saveChangesDeviceName;
+      EditText myHeight,maxLift,deviceName;
+      String SpeedUnit=MySharedPreference.RetrieveSpeedUnit(myActivity);
+      String WeightUnit =MySharedPreference.RetrieveWeightUnit(myActivity);
+      String TemperatureUnit=MySharedPreference.RetrieveTemperatureUnit(myActivity);
+      TV_deviceName=v.findViewById(R.id.TextView_Device_Name_in_Settings_Screen_Black);
+      deviceName=v.findViewById(R.id.EditText_Device_Name_in_settings_screen);
+      TV_deviceName.setText(myActivity.DeviceName);
+      deviceName.setText(myActivity.DeviceName);
+      myHeight=v.findViewById(R.id.EditText_My_Height_in_settings_screen);
+      maxLift=v.findViewById(R.id.EditText_Max_Lift_in_settings_screen);
 
     goToMainScreen = v.findViewById(R.id.GoBack_to_main_screen_from_black_settings_screen_id);
       goToMainScreen.setOnClickListener(
@@ -43,6 +55,9 @@ public class Fragment_Settings_Screen extends Fragment {
       saveChangesHeight.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              String temp= myHeight.getText().toString();
+              int height = Integer.parseInt(temp);
+              MySharedPreference.saveHeight(myActivity,height);
               // myActivity.shoe.onWriteFinished();
           }
       });
@@ -52,6 +67,9 @@ public class Fragment_Settings_Screen extends Fragment {
       saveChangesMaxLift.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              String temp = maxLift.getText().toString();
+              int maxlift=Integer.parseInt(temp);
+              MySharedPreference.saveMaxLiftWeight(myActivity,maxlift);
               // myActivity.shoe.onWriteFinished();
           }
       });
@@ -59,6 +77,11 @@ public class Fragment_Settings_Screen extends Fragment {
       saveChangesDeviceName.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+              String name=deviceName.getText().toString();
+              myActivity.DeviceName=name;
+              MySharedPreference.saveDeviceName(myActivity,name);
+              TV_deviceName.setText(myActivity.DeviceName);
+              Toast.makeText(myActivity,myActivity.DeviceName,Toast.LENGTH_SHORT).show();
               //myActivity.shoe.onWriteFinished();
           }
       });

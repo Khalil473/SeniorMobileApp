@@ -1,6 +1,8 @@
 package com.example.senior_project_mobile_app;
 
 import android.os.Bundle;
+import android.widget.Spinner;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,6 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
   public static String currentScreen = "";
+  public String SpeedUnit="";
+  public String WeightUnit="";
+  public String TemperatureUnit="";
+  public String DeviceName="";
   public Shoe shoe;
 
   @Override
@@ -15,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     shoe = new Shoe(this);
+    SpeedUnit=MySharedPreference.RetrieveSpeedUnit(this);
+    WeightUnit =MySharedPreference.RetrieveWeightUnit(this);
+    TemperatureUnit=MySharedPreference.RetrieveTemperatureUnit(this);
+    DeviceName=MySharedPreference.RetrieveDeviceName(this);
     replaceFragment(new Fragment_Bluetooth_Not_Connected_Screen(this));
   }
 
