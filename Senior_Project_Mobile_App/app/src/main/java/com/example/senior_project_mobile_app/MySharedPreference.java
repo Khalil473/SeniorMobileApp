@@ -89,5 +89,12 @@ public class MySharedPreference {
         String unit = preferences.getString("TemperatureUnit","°C");
         return unit;
     }
+    public static String RetrieveSpeedReceivedFromSensor(Context context)
+    {
+        SharedPreferences preferences = context.getSharedPreferences(MY_PREF,context.MODE_PRIVATE);
+        String speed = preferences.getString("SpeedReceivedFromSensor","0");
+        return speed;
+    }
+
 
 }

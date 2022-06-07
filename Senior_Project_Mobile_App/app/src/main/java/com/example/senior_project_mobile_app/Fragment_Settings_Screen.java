@@ -26,22 +26,18 @@ public class Fragment_Settings_Screen extends Fragment {
 
   View v,mainScreenView;
   TextView TV_deviceName;
-
+    String oldSpeedUnit,oldWeightUnit,oldTemperatureUnit;
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.settings_black, container, false);
       ImageView goToMainScreen;
       TextView saveChangesHeight,saveChangesMaxLift,saveChangesDeviceName;
       EditText myHeight,maxLift,deviceName;
-      String SpeedUnit=MySharedPreference.RetrieveSpeedUnit(myActivity);
-      String WeightUnit =MySharedPreference.RetrieveWeightUnit(myActivity);
-      String TemperatureUnit=MySharedPreference.RetrieveTemperatureUnit(myActivity);
       TV_deviceName=v.findViewById(R.id.TextView_Device_Name_in_Settings_Screen_Black);
       deviceName=v.findViewById(R.id.EditText_Device_Name_in_settings_screen);
       TV_deviceName.setText(myActivity.DeviceName);
       deviceName.setText(myActivity.DeviceName);
       myHeight=v.findViewById(R.id.EditText_My_Height_in_settings_screen);
       maxLift=v.findViewById(R.id.EditText_Max_Lift_in_settings_screen);
-
     goToMainScreen = v.findViewById(R.id.GoBack_to_main_screen_from_black_settings_screen_id);
       goToMainScreen.setOnClickListener(
         new View.OnClickListener() {
@@ -90,14 +86,18 @@ public class Fragment_Settings_Screen extends Fragment {
       ArrayAdapter SpeedUnitSpinnerAdapter = ArrayAdapter.createFromResource(myActivity,R.array.speed_units,R.layout.spinner_color);
       SpeedUnitSpinnerAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
       SpeedUnitSpinner.setAdapter(SpeedUnitSpinnerAdapter);
-      final String[] OldSpeedUnit = {SpeedUnitSpinner.getSelectedItem().toString()};
+      SpeedUnitSpinner.setSelection(SpeedUnitSpinnerAdapter.getPosition(myActivity.SpeedUnit));
+      oldSpeedUnit = SpeedUnitSpinner.getSelectedItem().toString();
+
       SpeedUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
           @Override
           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              if(!SpeedUnitSpinner.getSelectedItem().toString().equals(OldSpeedUnit[0]))
+              if(!SpeedUnitSpinner.getSelectedItem().toString().equals(oldSpeedUnit))
               {
-                  OldSpeedUnit[0] =SpeedUnitSpinner.getSelectedItem().toString();
+                  oldSpeedUnit=SpeedUnitSpinner.getSelectedItem().toString();
                   String speedSelectedItem=SpeedUnitSpinner.getSelectedItem().toString();
+                  MySharedPreference.saveSpeedUnit(myActivity,speedSelectedItem);
+                  myActivity.SpeedUnit=oldSpeedUnit;
                   Toast.makeText(myActivity,speedSelectedItem,Toast.LENGTH_SHORT).show();
               }
           }
@@ -106,19 +106,22 @@ public class Fragment_Settings_Screen extends Fragment {
           }
       });
 
-
       Spinner WeightUnitSpinner = v.findViewById(R.id.WeightUnitSpinner);
       ArrayAdapter WeightUnitSpinnerAdapter=ArrayAdapter.createFromResource(myActivity,R.array.weight_units,R.layout.spinner_color);
       WeightUnitSpinnerAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
       WeightUnitSpinner.setAdapter(WeightUnitSpinnerAdapter);
-      final String[] OldWeightUnit = {WeightUnitSpinner.getSelectedItem().toString()};
+      WeightUnitSpinner.setSelection(WeightUnitSpinnerAdapter.getPosition(myActivity.WeightUnit));
+      oldWeightUnit=WeightUnitSpinner.getSelectedItem().toString();
+
       WeightUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
           @Override
           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              if(!WeightUnitSpinner.getSelectedItem().toString().equals(OldWeightUnit[0]))
+              if(!WeightUnitSpinner.getSelectedItem().toString().equals(oldWeightUnit))
               {
-                  OldWeightUnit[0] =WeightUnitSpinner.getSelectedItem().toString();
+                  oldWeightUnit =WeightUnitSpinner.getSelectedItem().toString();
                   String WeightSelectedItem=WeightUnitSpinner.getSelectedItem().toString();
+                  MySharedPreference.saveWeightUnit(myActivity,WeightSelectedItem);
+                  myActivity.WeightUnit=oldWeightUnit;
                  Toast.makeText(myActivity,WeightSelectedItem,Toast.LENGTH_SHORT).show();
               }
           }
@@ -134,15 +137,18 @@ public class Fragment_Settings_Screen extends Fragment {
       ArrayAdapter TemperatureUnitSpinnerAdapter=ArrayAdapter.createFromResource(myActivity,R.array.Temerature_units,R.layout.spinner_color);
       TemperatureUnitSpinnerAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
       TemperatureUnitSpinner.setAdapter(TemperatureUnitSpinnerAdapter);
-      final String[] OldTemperatureUnit = {TemperatureUnitSpinner.getSelectedItem().toString()};
+      TemperatureUnitSpinner.setSelection(TemperatureUnitSpinnerAdapter.getPosition(myActivity.TemperatureUnit));
+      oldTemperatureUnit=TemperatureUnitSpinner.getSelectedItem().toString();
       TemperatureUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
           @Override
           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              if(!TemperatureUnitSpinner.getSelectedItem().toString().equals(OldTemperatureUnit[0]))
+              if(!TemperatureUnitSpinner.getSelectedItem().toString().equals(oldTemperatureUnit))
               {
-                  OldTemperatureUnit[0] =TemperatureUnitSpinner.getSelectedItem().toString();
-                  String WeightSelectedItem=TemperatureUnitSpinner.getSelectedItem().toString();
-                  Toast.makeText(myActivity,WeightSelectedItem,Toast.LENGTH_SHORT).show();
+                  oldTemperatureUnit=TemperatureUnitSpinner.getSelectedItem().toString();
+                  String TemperatureSelectedItem=TemperatureUnitSpinner.getSelectedItem().toString();
+                  MySharedPreference.saveTemperatureUnit(myActivity,TemperatureSelectedItem);
+                  myActivity.TemperatureUnit=oldTemperatureUnit;
+                  Toast.makeText(myActivity,TemperatureSelectedItem,Toast.LENGTH_SHORT).show();
               }
           }
 
