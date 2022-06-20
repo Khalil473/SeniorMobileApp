@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 
 public class Fragment_BMI_Screen extends Fragment {
@@ -15,9 +17,12 @@ public class Fragment_BMI_Screen extends Fragment {
   }
 
   View v;
+  TextView deviceName;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.bmi_blacked, container, false);
+    deviceName=v.findViewById(R.id.TextView_Device_Name_in_BMI_Screen_Black);
+    deviceName.setText(myActivity.DeviceName);
 
     ImageView imageView = v.findViewById(R.id.GoBack_to_main_screen_from_black_BMI_screen_id);
     imageView.setOnClickListener(

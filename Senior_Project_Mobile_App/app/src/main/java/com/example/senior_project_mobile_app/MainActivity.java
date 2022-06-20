@@ -1,6 +1,8 @@
 package com.example.senior_project_mobile_app;
 
 import android.os.Bundle;
+import android.widget.Spinner;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -8,13 +10,23 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends AppCompatActivity {
   public static String currentScreen = "";
+  public String SpeedUnit="";
+  public String WeightUnit="";
+  public String TemperatureUnit="";
+  public String DeviceName="";
   public Shoe shoe;
+  public static String speedFromSensor="";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     shoe = new Shoe(this);
+    SpeedUnit=MySharedPreference.RetrieveSpeedUnit(this);
+    WeightUnit =MySharedPreference.RetrieveWeightUnit(this);
+    TemperatureUnit=MySharedPreference.RetrieveTemperatureUnit(this);
+    DeviceName=MySharedPreference.RetrieveDeviceName(this);
+    speedFromSensor=MySharedPreference.RetrieveSpeedReceivedFromSensor(this);
     replaceFragment(new Fragment_Bluetooth_Not_Connected_Screen(this));
   }
 
@@ -56,4 +68,43 @@ public class MainActivity extends AppCompatActivity {
           }
         });
   }
+
+  public static float convertSpeedFrom_MS_to_KmH(float Speed_In_ms)//from meter/second to Km/hour
+  {
+    float speed_in_KMH ;
+    speed_in_KMH=Speed_In_ms*18/5;
+    return speed_in_KMH;
+  }
+  public static float convertSpeedFrom_MS_to_MileH(float Speed_In_ms)//from meter/second to mile/hour
+  {
+    float speed_in_MileH ;
+    speed_in_MileH= (float) (Speed_In_ms*2.236936);
+    return speed_in_MileH;
+  }
+  public static float convertSpeedFrom_MS_to_ftS(float Speed_In_ms)//from meter/second to feet/second
+  {
+    float speed_in_ftS ;
+    speed_in_ftS= (float) (Speed_In_ms*3.28084);
+    return speed_in_ftS;
+  }
+  public static float convertWeightFrom_G_To_Kg(float weight_In_G)
+  {
+    float weight_In_Kg;
+    weight_In_Kg= weight_In_G/1000;
+    return weight_In_Kg;
+  }
+  public static float convertWeightFrom_G_To_Pound(float weight_In_G)
+  {
+    float weight_In_Pound;
+    weight_In_Pound= (float) (0.00220462262185*weight_In_G);
+    return weight_In_Pound;
+  }
+  public static float convertTemperatureFrom_C_To_F(float temperature_In_C)
+  {
+    float temperature_In_F;
+    temperature_In_F= (float) ((temperature_In_C*1.8)+32);
+    return temperature_In_F;
+  }
+
+
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
@@ -19,33 +20,94 @@ public class Fragment_Main_Screen extends Fragment {
   }
 
   View v;
-  TextView temp, weight, humadity, speed, carred_weight;
+  public static TextView TV_temp, TV_weight, TV_humadity, TV_speed, TV_carried_weight,deviceName,TV_speedUnit,TV_weightUnit,TV_temperatureUnit,TV_carriedWeightUnit;
   ProgressBar loading_bar;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.main_screen_black, container, false);
     myActivity.shoe.startDataNotify();
-    temp = v.findViewById(R.id.temp_real_time);
-    weight = v.findViewById(R.id.weight_real_time);
-    humadity = v.findViewById(R.id.humadity_real_time);
-    speed = v.findViewById(R.id.speed_real_time);
-    carred_weight = v.findViewById(R.id.carred_weight_real_time);
+      TV_temp = v.findViewById(R.id.temp_real_time);
+      TV_weight = v.findViewById(R.id.weight_real_time);
+      TV_humadity = v.findViewById(R.id.humadity_real_time);
+      TV_speed = v.findViewById(R.id.speed_real_time);
+      TV_carried_weight = v.findViewById(R.id.carred_weight_real_time);
     loading_bar = v.findViewById(R.id.loading_bar);
+    deviceName=v.findViewById(R.id.DeviceNameInMainScreen);
+      TV_speedUnit=v.findViewById(R.id.speed_unit_real_time);
+      TV_weightUnit=v.findViewById(R.id.weight_unit_real_time);
+      TV_temperatureUnit=v.findViewById(R.id.temp_unit_real_time);
+      TV_carriedWeightUnit=v.findViewById(R.id.carred_weight_unit_real_time);
+    deviceName.setText(myActivity.DeviceName);
+      TV_speedUnit.setText(myActivity.SpeedUnit);
+      TV_weightUnit.setText(myActivity.WeightUnit);
+      TV_carriedWeightUnit.setText(myActivity.WeightUnit);
+      TV_temperatureUnit.setText(myActivity.TemperatureUnit);
 
     myActivity.shoe.setOnDataReceivedListener(
         (data) -> {
           if (data.startsWith("w")) {
+              float weight=0,receivedWeight=Float.parseFloat(data.substring(1));
+              if(myActivity.WeightUnit.equals("Kg"))
+              {
+                  weight=MainActivity.convertWeightFrom_G_To_Kg(receivedWeight);
+              }
+              else if (myActivity.WeightUnit.equals("lb"))
+              {
+                  weight=MainActivity.convertWeightFrom_G_To_Pound(receivedWeight);
+              }
+              TV_weight.setText(weight+"");
+          }
+          else if (data.startsWith("t")) {
 
-            weight.setText(data.substring(1));
-          } else if (data.startsWith("t")) {
-            temp.setText(data.substring(1) + "");
+              float temperature=0,receivedTemperature=Float.parseFloat(data.substring(1));
+              if(myActivity.TemperatureUnit.equals("°C"))
+              {
+                  temperature=receivedTemperature;
+              }
+              else
+              {
+                  temperature=MainActivity.convertTemperatureFrom_C_To_F(receivedTemperature);
+              }
+              TV_temp.setText(temperature+"");
 
-          } else if (data.startsWith("h")) {
-            humadity.setText(data.substring(1) + "");
-          } else if (data.startsWith("s")) {
-            speed.setText(data.substring(1));
-          } else if (data.startsWith("cw")) {
-            carred_weight.setText(data.substring(2));
+          }
+          else if (data.startsWith("h")) {
+
+              TV_humadity.setText(data.substring(1) +"");
+          }
+          else if (data.startsWith("s")) {
+              float speed=0,receivedSpeed=Float.parseFloat(data.substring(1));
+
+              if(myActivity.SpeedUnit.equals("Km/h"))
+              {
+                  speed=MainActivity.convertSpeedFrom_MS_to_KmH(receivedSpeed);
+              }
+              else if(myActivity.SpeedUnit.equals("m/s"))
+              {
+                  speed=receivedSpeed;
+              }
+              else if(myActivity.SpeedUnit.equals("Mile/h"))
+              {
+                  speed=MainActivity.convertSpeedFrom_MS_to_MileH(receivedSpeed);
+              }
+              else
+              {
+                  speed=MainActivity.convertSpeedFrom_MS_to_ftS(receivedSpeed);
+              }
+                  TV_speed.setText(speed+"");
+          }
+
+          else if (data.startsWith("cw")) {
+              float weight=0,receivedWeight=Float.parseFloat(data.substring(2));
+              if(myActivity.WeightUnit.equals("Kg"))
+              {
+                  weight=MainActivity.convertWeightFrom_G_To_Kg(receivedWeight);
+              }
+              else if (myActivity.WeightUnit.equals("lb"))
+              {
+                  weight=MainActivity.convertWeightFrom_G_To_Pound(receivedWeight);
+              }
+              TV_carried_weight.setText(weight+"");
           }
         });
     ImageView imageView = v.findViewById(R.id.settings_image_black_id);

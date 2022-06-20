@@ -45,6 +45,7 @@ public class Fragment_Tempreture_History_screen extends Fragment {
   View v;
   GraphView graph;
     TextView []buttons;
+    TextView TV_deviceName;
     void changeButtonsColors(Integer index) {
         for (int i = 0; i < 4; i++) {
             if (i == index)
@@ -57,6 +58,8 @@ public class Fragment_Tempreture_History_screen extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.temperature_history_black, container, false);
     graph = v.findViewById(R.id.graph);
+    TV_deviceName=v.findViewById(R.id.TextView_Device_Name_in_Temperature_History_Screen_Black);
+    TV_deviceName.setText(myActivity.DeviceName);
       buttons = new TextView[4];
     loading_bar = v.findViewById(R.id.loading_bar_in_temperature_history_screen);
     buttons[0] = v.findViewById(R.id.daily_temperature_history_button);//daily
