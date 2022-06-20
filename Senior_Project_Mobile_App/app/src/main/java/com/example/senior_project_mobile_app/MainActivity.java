@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         || fragment instanceof Fragment_Setup_Screen
         || fragment instanceof Fragment_Main_Screen
         || fragment instanceof Fragment_Bluetooth_Not_Connected_Screen)) {
-      //shoe.stopDataNotify();
+      // shoe.stopDataNotify();
       shoe.setOnDataReceivedListener(
           new OnDataReceivedListener() {
             @Override

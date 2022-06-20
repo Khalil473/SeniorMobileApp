@@ -53,7 +53,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              myActivity.shoe.sendData("disconnect");
+            myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Settings_Screen(myActivity));
           }
         });
@@ -72,7 +72,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              myActivity.shoe.sendData("disconnect");
+            myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Weight_History_Screen(myActivity));
           }
         });
@@ -92,7 +92,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              myActivity.shoe.sendData("disconnect");
+            myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Humadity_Screen(myActivity));
           }
         });
@@ -102,18 +102,19 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              myActivity.shoe.sendData("disconnect");
+            myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_Speed_History(myActivity));
           }
         });
 
-    LinearLayout linearLayout_Carried_Weight = v.findViewById(R.id.linear_layout_Carried_Weight_history_id);
+    LinearLayout linearLayout_Carried_Weight =
+        v.findViewById(R.id.linear_layout_Carried_Weight_history_id);
     linearLayout_Carried_Weight.setOnClickListener(
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              myActivity.shoe.sendData("disconnect");
-              myActivity.replaceFragment(new Fragment_Carried_Weight_History(myActivity));
+            myActivity.shoe.sendData("disconnect");
+            myActivity.replaceFragment(new Fragment_Carried_Weight_History(myActivity));
           }
         });
 
@@ -122,7 +123,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              myActivity.shoe.sendData("disconnect");
+            myActivity.shoe.sendData("disconnect");
           }
         });
     LinearLayout linearLayout_BMI = v.findViewById(R.id.linear_layout_BMI_id);
@@ -130,7 +131,7 @@ public class Fragment_Main_Screen extends Fragment {
         new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              myActivity.shoe.sendData("disconnect");
+            myActivity.shoe.sendData("disconnect");
             myActivity.replaceFragment(new Fragment_BMI_Screen(myActivity));
           }
         });

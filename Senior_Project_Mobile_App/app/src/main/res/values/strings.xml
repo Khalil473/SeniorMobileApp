@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Senior_Project_Mobile_App</string>
+    <string-array name="speed_units">
+        <item>Km/h</item>
+        <item>m/s</item>
+        <item>Mile/h</item>
+        <item>f/h</item>
+    </string-array>
+
+
+    <string-array name="weight_units">
+        <item>Kg</item>
+        <item>Pound</item>
+    </string-array>
+
+    <string-array name="Temerature_units">
+        <item>°C</item>
+        <item>°F</item>
+    </string-array>
 </resources>
