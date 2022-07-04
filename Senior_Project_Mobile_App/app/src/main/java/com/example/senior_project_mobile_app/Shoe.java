@@ -127,9 +127,11 @@ public class Shoe {
           @Override
           public void onCharacteristicRead(
               BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+              System.out.println("here");
             if (status == BluetoothGatt.GATT_SUCCESS) {
               String dataFromCharacteristic =
                   new String(characteristic.getValue(), StandardCharsets.UTF_8);
+                System.out.println(dataFromCharacteristic);
               if (Shoe.this.status == STATE_READING_HISTORY) {
                 String[] recData = dataFromCharacteristic.split(",");
                 for (String data : recData) {
@@ -151,7 +153,10 @@ public class Shoe {
                     new Runnable() {
                       @Override
                       public void run() {
-                        dataReceivedListener.dataReceivedListener(dataFromCharacteristic);
+                          String []allData=dataFromCharacteristic.split(",");
+                          for(String data:allData) {
+                              dataReceivedListener.dataReceivedListener(data);
+                          }
                       }
                     });
               }
@@ -166,6 +171,7 @@ public class Shoe {
                     myActivity, Manifest.permission.BLUETOOTH_CONNECT)
                 != PackageManager.PERMISSION_GRANTED)
               ;
+              System.out.println("here1");
             gatt.executeReliableWrite();
           }
 
@@ -182,6 +188,7 @@ public class Shoe {
           @Override
           public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
             super.onReliableWriteCompleted(gatt, status);
+              System.out.println("here2");
             if (writeFinishedListener != null)
               myActivity.runOnUiThread(
                   new Runnable() {
@@ -464,6 +471,21 @@ public class Shoe {
       ;
     bluetoothGatt.writeCharacteristic(defaultCharacteristic);
     status = STATE_SENDING_DATA;
+  }
+  public void requestRealTimeData(){
+      myActivity.runOnUiThread(
+              new Runnable() {
+                  @Override
+                  public void run() {
+                      defaultCharacteristic.setValue(("rtd").getBytes(StandardCharsets.UTF_8));
+                      if (ActivityCompat.checkSelfPermission(
+                              myActivity, Manifest.permission.BLUETOOTH_CONNECT)
+                              != PackageManager.PERMISSION_GRANTED)
+                          ;
+                      status=STATE_CONNECTED;
+                      bluetoothGatt.writeCharacteristic(defaultCharacteristic);
+                  }
+              });
   }
 
   public void startHistoryReading(String type) {
