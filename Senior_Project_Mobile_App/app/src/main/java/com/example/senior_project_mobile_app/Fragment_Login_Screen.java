@@ -27,7 +27,7 @@ public class Fragment_Login_Screen extends Fragment {
           @Override
           public void onClick(View v) {
             if (myActivity.shoe.isReadyForMainScreen())
-              myActivity.replaceFragment(new Fragment_Main_Screen(myActivity));
+                myActivity.replaceFragment(new Fragment_Main_Screen(myActivity));
           }
         });
     return v;

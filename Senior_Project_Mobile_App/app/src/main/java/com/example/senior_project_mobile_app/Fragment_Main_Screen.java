@@ -10,10 +10,12 @@ import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Fragment_Main_Screen extends Fragment {
   MainActivity myActivity;
-
+  Timer timer = new Timer();
   public Fragment_Main_Screen(MainActivity m) {
     myActivity = m;
   }
@@ -21,7 +23,8 @@ public class Fragment_Main_Screen extends Fragment {
   View v;
   TextView temp, weight, humadity, speed, carred_weight;
   ProgressBar loading_bar;
-
+  int reTries=0;
+  boolean readyToSend=true;
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.main_screen_black, container, false);
     myActivity.shoe.startDataNotify();
@@ -35,11 +38,9 @@ public class Fragment_Main_Screen extends Fragment {
     myActivity.shoe.setOnDataReceivedListener(
         (data) -> {
           if (data.startsWith("w")) {
-
             weight.setText(data.substring(1));
           } else if (data.startsWith("t")) {
             temp.setText(data.substring(1) + "");
-
           } else if (data.startsWith("h")) {
             humadity.setText(data.substring(1) + "");
           } else if (data.startsWith("s")) {
@@ -48,6 +49,32 @@ public class Fragment_Main_Screen extends Fragment {
             carred_weight.setText(data.substring(2));
           }
         });
+    myActivity.shoe.setOnWriteFinishedListener(new OnWriteFinishedListener() {
+        @Override
+        public void writeFinished() {
+            readyToSend=true;
+        }
+    });
+    timer.scheduleAtFixedRate(new TimerTask() {
+          @Override
+          public void run() {
+              if(!readyToSend){
+                  if(reTries<5) {
+                      reTries++;
+                      myActivity.shoe.read();
+                      return;
+                  }
+              }
+              reTries=0;
+              readyToSend=false;
+              myActivity.runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                      myActivity.shoe.requestRealTimeData();
+                  }
+              });
+          }
+      }, 1000, 3000);
     ImageView imageView = v.findViewById(R.id.settings_image_black_id);
     imageView.setOnClickListener(
         new View.OnClickListener() {
