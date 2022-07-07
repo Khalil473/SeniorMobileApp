@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
   public String DeviceName="";
   public Shoe shoe;
   public static String speedFromSensor="";
-
+  public double fixed_weight=0.0;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

@@ -97,7 +97,7 @@ public class Fragment_Main_Screen extends Fragment {
                   TV_speed.setText(speed+"");
           }
 
-          else if (data.startsWith("cw")) {
+          else if (data.startsWith("c")) {
               float weight=0,receivedWeight=Float.parseFloat(data.substring(2));
               if(myActivity.WeightUnit.equals("Kg"))
               {
