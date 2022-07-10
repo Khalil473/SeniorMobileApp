@@ -98,7 +98,7 @@ public class Fragment_Main_Screen extends Fragment {
           }
 
           else if (data.startsWith("c")) {
-              float weight=0,receivedWeight=Float.parseFloat(data.substring(2));
+              float weight=0,receivedWeight=Float.parseFloat(data.substring(1));
               if(myActivity.WeightUnit.equals("Kg"))
               {
                   weight=MainActivity.convertWeightFrom_G_To_Kg(receivedWeight);
