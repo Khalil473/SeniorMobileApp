@@ -44,28 +44,31 @@ public class Fragment_Tempreture_History_screen extends Fragment {
 
   View v;
   GraphView graph;
-    TextView []buttons;
-    TextView TV_deviceName;
-    void changeButtonsColors(Integer index) {
-        for (int i = 0; i < 4; i++) {
-            if (i == index)
-                buttons[i].setBackgroundResource(R.drawable.purple_background_for_buttons_in_blacked_history_screens);
-            else
-                buttons[i].setBackgroundResource(R.drawable.gray_background_for_buttons_in_blacked_history_screens);
-        }
+  TextView[] buttons;
+  TextView TV_deviceName;
+
+  void changeButtonsColors(Integer index) {
+    for (int i = 0; i < 4; i++) {
+      if (i == index)
+        buttons[i].setBackgroundResource(
+            R.drawable.purple_background_for_buttons_in_blacked_history_screens);
+      else
+        buttons[i].setBackgroundResource(
+            R.drawable.gray_background_for_buttons_in_blacked_history_screens);
     }
+  }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.temperature_history_black, container, false);
     graph = v.findViewById(R.id.graph);
-    TV_deviceName=v.findViewById(R.id.TextView_Device_Name_in_Temperature_History_Screen_Black);
+    TV_deviceName = v.findViewById(R.id.TextView_Device_Name_in_Temperature_History_Screen_Black);
     TV_deviceName.setText(myActivity.DeviceName);
-      buttons = new TextView[4];
+    buttons = new TextView[4];
     loading_bar = v.findViewById(R.id.loading_bar_in_temperature_history_screen);
-    buttons[0] = v.findViewById(R.id.daily_temperature_history_button);//daily
-    buttons[1] = v.findViewById(R.id.weakly_temperature_history_button);//weakly
-    buttons[2] = v.findViewById(R.id.monthly_temperature_history_button);//monthly
-    buttons[3] = v.findViewById(R.id.yearly_temperature_history_button);//yearly
+    buttons[0] = v.findViewById(R.id.daily_temperature_history_button); // daily
+    buttons[1] = v.findViewById(R.id.weakly_temperature_history_button); // weakly
+    buttons[2] = v.findViewById(R.id.monthly_temperature_history_button); // monthly
+    buttons[3] = v.findViewById(R.id.yearly_temperature_history_button); // yearly
 
     ImageView imageView =
         v.findViewById(R.id.GoBack_to_main_screen_from_black_tempreture_history_screen_id);

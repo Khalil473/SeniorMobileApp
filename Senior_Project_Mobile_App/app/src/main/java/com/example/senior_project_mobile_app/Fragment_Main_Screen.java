@@ -1,5 +1,6 @@
 package com.example.senior_project_mobile_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
@@ -20,94 +20,89 @@ public class Fragment_Main_Screen extends Fragment {
   }
 
   View v;
-  public static TextView TV_temp, TV_weight, TV_humadity, TV_speed, TV_carried_weight,deviceName,TV_speedUnit,TV_weightUnit,TV_temperatureUnit,TV_carriedWeightUnit;
+  public TextView TV_temp,
+      TV_weight,
+      TV_humadity,
+      TV_speed,
+      TV_carried_weight,
+      TV_BMI,
+      deviceName,
+      TV_speedUnit,
+      TV_weightUnit,
+      TV_temperatureUnit,
+      TV_carriedWeightUnit;
+
   ProgressBar loading_bar;
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
     v = inflater.inflate(R.layout.main_screen_black, container, false);
     myActivity.shoe.startDataNotify();
-      TV_temp = v.findViewById(R.id.temp_real_time);
-      TV_weight = v.findViewById(R.id.weight_real_time);
-      TV_humadity = v.findViewById(R.id.humadity_real_time);
-      TV_speed = v.findViewById(R.id.speed_real_time);
-      TV_carried_weight = v.findViewById(R.id.carred_weight_real_time);
+    TV_temp = v.findViewById(R.id.temp_real_time);
+    TV_weight = v.findViewById(R.id.weight_real_time);
+    TV_humadity = v.findViewById(R.id.humadity_real_time);
+    TV_speed = v.findViewById(R.id.speed_real_time);
+    TV_carried_weight = v.findViewById(R.id.carred_weight_real_time);
     loading_bar = v.findViewById(R.id.loading_bar);
-    deviceName=v.findViewById(R.id.DeviceNameInMainScreen);
-      TV_speedUnit=v.findViewById(R.id.speed_unit_real_time);
-      TV_weightUnit=v.findViewById(R.id.weight_unit_real_time);
-      TV_temperatureUnit=v.findViewById(R.id.temp_unit_real_time);
-      TV_carriedWeightUnit=v.findViewById(R.id.carred_weight_unit_real_time);
+    deviceName = v.findViewById(R.id.DeviceNameInMainScreen);
+    TV_speedUnit = v.findViewById(R.id.speed_unit_real_time);
+    TV_weightUnit = v.findViewById(R.id.weight_unit_real_time);
+    TV_temperatureUnit = v.findViewById(R.id.temp_unit_real_time);
+    TV_carriedWeightUnit = v.findViewById(R.id.carred_weight_unit_real_time);
+    TV_BMI = v.findViewById(R.id.bmi_real_time);
     deviceName.setText(myActivity.DeviceName);
-      TV_speedUnit.setText(myActivity.SpeedUnit);
-      TV_weightUnit.setText(myActivity.WeightUnit);
-      TV_carriedWeightUnit.setText(myActivity.WeightUnit);
-      TV_temperatureUnit.setText(myActivity.TemperatureUnit);
+    TV_speedUnit.setText(myActivity.SpeedUnit);
+    TV_weightUnit.setText(myActivity.WeightUnit);
+    TV_carriedWeightUnit.setText(myActivity.WeightUnit);
+    TV_temperatureUnit.setText(myActivity.TemperatureUnit);
 
     myActivity.shoe.setOnDataReceivedListener(
         (data) -> {
           if (data.startsWith("w")) {
-              float weight=0,receivedWeight=Float.parseFloat(data.substring(1));
-              if(myActivity.WeightUnit.equals("Kg"))
-              {
-                  weight=MainActivity.convertWeightFrom_G_To_Kg(receivedWeight);
-              }
-              else if (myActivity.WeightUnit.equals("lb"))
-              {
-                  weight=MainActivity.convertWeightFrom_G_To_Pound(receivedWeight);
-              }
-              TV_weight.setText(weight+"");
-          }
-          else if (data.startsWith("t")) {
+            float weight = 0, receivedWeight = Float.parseFloat(data.substring(1));
+            myActivity.weight = MainActivity.convertWeightFrom_G_To_Kg(receivedWeight);
 
-              float temperature=0,receivedTemperature=Float.parseFloat(data.substring(1));
-              if(myActivity.TemperatureUnit.equals("°C"))
-              {
-                  temperature=receivedTemperature;
-              }
-              else
-              {
-                  temperature=MainActivity.convertTemperatureFrom_C_To_F(receivedTemperature);
-              }
-              TV_temp.setText(temperature+"");
+            if (myActivity.WeightUnit.equals("Kg")) {
+              weight = MainActivity.convertWeightFrom_G_To_Kg(receivedWeight);
+            } else if (myActivity.WeightUnit.equals("lb")) {
+              weight = MainActivity.convertWeightFrom_G_To_Pound(receivedWeight);
+            }
+            TV_weight.setText((Math.round(weight * 100.0) / 100.0) + "");
+            double BMI = myActivity.weight / (myActivity.height * myActivity.height / 10000.0);
+            TV_BMI.setText((Math.round(BMI * 100.0) / 100.0) + "");
+          } else if (data.startsWith("t")) {
 
-          }
-          else if (data.startsWith("h")) {
+            float temperature = 0, receivedTemperature = Float.parseFloat(data.substring(1));
+            if (myActivity.TemperatureUnit.equals("°C")) {
+              temperature = receivedTemperature;
+            } else {
+              temperature = MainActivity.convertTemperatureFrom_C_To_F(receivedTemperature);
+            }
+            TV_temp.setText((Math.round(temperature * 100.0) / 100.0) + "");
 
-              TV_humadity.setText(data.substring(1) +"");
-          }
-          else if (data.startsWith("s")) {
-              float speed=0,receivedSpeed=Float.parseFloat(data.substring(1));
+          } else if (data.startsWith("h")) {
 
-              if(myActivity.SpeedUnit.equals("Km/h"))
-              {
-                  speed=MainActivity.convertSpeedFrom_MS_to_KmH(receivedSpeed);
-              }
-              else if(myActivity.SpeedUnit.equals("m/s"))
-              {
-                  speed=receivedSpeed;
-              }
-              else if(myActivity.SpeedUnit.equals("Mile/h"))
-              {
-                  speed=MainActivity.convertSpeedFrom_MS_to_MileH(receivedSpeed);
-              }
-              else
-              {
-                  speed=MainActivity.convertSpeedFrom_MS_to_ftS(receivedSpeed);
-              }
-                  TV_speed.setText(speed+"");
-          }
+            TV_humadity.setText(data.substring(1) + "");
+          } else if (data.startsWith("s")) {
+            float speed = 0, receivedSpeed = Float.parseFloat(data.substring(1));
 
-          else if (data.startsWith("c")) {
-              float weight=0,receivedWeight=Float.parseFloat(data.substring(1));
-              if(myActivity.WeightUnit.equals("Kg"))
-              {
-                  weight=MainActivity.convertWeightFrom_G_To_Kg(receivedWeight);
-              }
-              else if (myActivity.WeightUnit.equals("lb"))
-              {
-                  weight=MainActivity.convertWeightFrom_G_To_Pound(receivedWeight);
-              }
-              TV_carried_weight.setText(weight+"");
+            if (myActivity.SpeedUnit.equals("Km/h")) {
+              speed = MainActivity.convertSpeedFrom_MS_to_KmH(receivedSpeed);
+            } else if (myActivity.SpeedUnit.equals("m/s")) {
+              speed = receivedSpeed;
+            } else if (myActivity.SpeedUnit.equals("Mile/h")) {
+              speed = MainActivity.convertSpeedFrom_MS_to_MileH(receivedSpeed);
+            } else {
+              speed = MainActivity.convertSpeedFrom_MS_to_ftS(receivedSpeed);
+            }
+            TV_speed.setText(speed + "");
+          } else if (data.startsWith("c")) {
+            float weight = 0, receivedWeight = Float.parseFloat(data.substring(1));
+            if (myActivity.WeightUnit.equals("Kg")) {
+              weight = MainActivity.convertWeightFrom_G_To_Kg(receivedWeight);
+            } else if (myActivity.WeightUnit.equals("lb")) {
+              weight = MainActivity.convertWeightFrom_G_To_Pound(receivedWeight);
+            }
+            TV_carried_weight.setText((Math.round(weight * 100.0) / 100.0) + "");
           }
         });
     ImageView imageView = v.findViewById(R.id.settings_image_black_id);
@@ -186,6 +181,7 @@ public class Fragment_Main_Screen extends Fragment {
           @Override
           public void onClick(View v) {
             myActivity.shoe.sendData("disconnect");
+            startActivity(new Intent(myActivity, MapsActivity.class));
           }
         });
     LinearLayout linearLayout_BMI = v.findViewById(R.id.linear_layout_BMI_id);

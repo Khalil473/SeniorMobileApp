@@ -26,7 +26,7 @@ public class Fragment_Login_Screen extends Fragment {
           public void onClick(View v) {
             if (myActivity.shoe.isReadyForMainScreen())
               myActivity.replaceFragment(new Fragment_Setup_Weight(myActivity));
-            }
+          }
         });
     return v;
   }
